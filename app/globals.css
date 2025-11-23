@@ -1,26 +1,203 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.hero {
+  position: relative;
+  background: linear-gradient(135deg, #1f1e1e, #e4302f);
+  padding: 140px 0px 100px 0px;
+  overflow: hidden;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ✨ Animated gradient shimmer background */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      circle at 20% 50%,
+      rgba(233, 30, 99, 0.12),
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(255, 255, 255, 0.1),
+      transparent 60%
+    );
+  animation: bgMove 10s ease-in-out infinite alternate;
+  z-index: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes bgMove {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+
+  100% {
+    transform: scale(1.1) translate(5%, 5%);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 🪶 Smooth fade and slide animations */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 1s ease forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-delay {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 1s ease forwards;
+  animation-delay: 0.3s;
+}
+
+.fade-in-delay-2 {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 1s ease forwards;
+  animation-delay: 0.6s;
+}
+
+/* 📱 Floating animation for phone images */
+.float-img {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* add delay for the second one */
+.float-img.delay {
+  animation: bounce 4s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+/* main floating animation (includes small rotation) */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(6deg);
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(6deg);
+  }
+}
+
+/* bouncing version (no rotation, just up-down motion) */
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+/* optional glowing light animation on hero images */
+.float-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 40px rgba(233, 30, 99, 0.3);
+  opacity: 0.4;
+  animation: glowPulse 2s infinite alternate;
+}
+
+@keyframes glowPulse {
+  from {
+    opacity: 0.3;
+  }
+
+  to {
+    opacity: 0.8;
+  }
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* background:
+                radial-gradient(circle at 20% 50%, rgba(233, 30, 99, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(233, 30, 99, 0.1) 0%, transparent 50%); */
+  pointer-events: none;
+}
+
+.hero-container {
+  max-width: 1100px;
+  z-index: 1;
+  margin-left: 10rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  height: 66vh;
+}
+
+.hero-content h1 {
+  font-size: 3.8rem;
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--white);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.hero-content h1 .gradient-text {
+  background: linear-gradient(135deg, var(--primary-red) 0%, #f16868 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-content p {
+  font-size: 1rem;
+  color: var(--gray-200);
+  margin-bottom: 2rem;
+  line-height: 1.8;
+  max-width: 540px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-hero-primary {
+  padding: 0.875rem 1.6rem;
+  font-size: 0.9rem;
+  background: var(--primary-red);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(233, 30, 99, 0.4);
+}
+
+.btn-hero-primary:hover {
+  background: var(--dark-red);
+  box-shadow: 0 6px 24px rgba(233, 30, 99, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-hero-secondary {
+  padding: 0.875rem 1.6rem;
+  font-size: 0.9rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.btn-hero-secondary:hover {
+  border-color: var(--primary-red);
+  background: rgba(233, 30, 99, 0.1);
 }
