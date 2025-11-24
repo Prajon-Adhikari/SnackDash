@@ -19,7 +19,7 @@ export default function Navbar() {
         {/* Desktop Menu */}
         <div className="hidden md:flex gap-6 text-gray-700 font-medium">
           <Link href="/">Home</Link>
-          <Link href="/shop">Shop</Link>
+          <Link href="/restaurants">Restaurants</Link>
           <Link href="/about">About</Link>
           <Link href="/contact">Contact</Link>
         </div>

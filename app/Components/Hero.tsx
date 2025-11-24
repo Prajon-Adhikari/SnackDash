@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 export default function Hero() {
   return (
@@ -28,13 +28,13 @@ export default function Hero() {
           <h1
             className="opacity-0 translate-y-5 animation-fadeUp text-[3.8rem] font-extrabold leading-tight text-white mb-6"
           >
-            Modern{" "}
+            Fastest{" "}
             <span
               className="bg-linear-to-br from-[#e4302f] to-[#f16868] bg-clip-text text-transparent"
             >
-              Attendance
+              Delivery
             </span>{" "}
-            Management System
+            In The Town
           </h1>
 
           <p
