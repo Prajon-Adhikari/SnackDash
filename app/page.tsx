@@ -18,37 +18,11 @@ const dishes: Dishes[] = [
   { id: 8, name: "Pasta", image: "/pasta.jpg", price: 250 },
 ];
 
-const foodItems: Food[] = [
-  {
-    id: 1,
-    title: "Grilled Double Cheese Burger",
-    image: "/burger2.png",
-    bg: "linear-gradient(135deg,#ff4d9d,#c51679)",
-  },
-  {
-    id: 2,
-    title: "Tasty Yummy Cheesy Pizza",
-    image: "/burger2.png",
-    bg: "linear-gradient(135deg,#ffb300,#ff6a00)",
-  },
-  {
-    id: 3,
-    title: "New Menu Galaxy Donuts Time!",
-    image: "/burger2.png",
-    bg: "linear-gradient(135deg,#ff1e3c,#b50019)",
-  },
-  {
-    id: 4,
-    title: "Fresh Delicious Veg Sandwich",
-    image: "/burger2.png",
-    bg: "linear-gradient(135deg,#8ddc55,#4caf50)",
-  },
-];
-
 export default function Home() {
   return (
     <div>
       <Hero />
+          <FoodCard />
       <div className=" my-20 mx-30">
         <div className="mb-10">
           <h2 className="text-5xl font-bold text-gray-900">
@@ -64,13 +38,8 @@ export default function Home() {
           })}
         </div>
       </div>
-      <Bento />
       <HeroSectionDesign />
-      <div className="grid grid-cols-4 mx-20 gap-5">
-        {foodItems.map((item: Food) => {
-          return <FoodCard key={item.id} food={item} />;
-        })}
-      </div>
+      <Bento />
     </div>
   );
 }

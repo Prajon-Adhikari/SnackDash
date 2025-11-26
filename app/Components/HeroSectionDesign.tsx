@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function HeroSectionDesign() {
   return (
-    <div className="flex mx-34 my-20 gap-16 items-center">
+    <div className="flex mx-34 my-30 gap-16 items-center">
       <div className="w-280">
         <div className="text-yellow-400 font-bold">ALWAYS FRESH</div>
         <h2 className="font-bold text-5xl">From Texas with </h2>
@@ -19,7 +19,7 @@ export default function HeroSectionDesign() {
           ORDER NOW
         </button>
       </div>
-      <div className="h-150 w-300 relative">
+      <div className="h-96 w-190 relative">
         <Image src={"/burger2.png"} alt="Burger Image" fill className="" />
       </div>
     </div>
