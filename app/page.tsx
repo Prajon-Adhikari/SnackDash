@@ -66,9 +66,9 @@ export default function Home() {
       </div>
       <Bento />
       <HeroSectionDesign />
-      <div>
+      <div className="grid grid-cols-4 mx-20 gap-5">
         {foodItems.map((item: Food) => {
-          return <FoodCard food={item} />;
+          return <FoodCard key={item.id} food={item} />;
         })}
       </div>
     </div>
