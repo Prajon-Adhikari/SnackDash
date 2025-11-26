@@ -22,25 +22,25 @@ const foodItems: Food[] = [
   {
     id: 1,
     title: "Grilled Double Cheese Burger",
-    image: "/burger.jpg",
+    image: "/burger2.png",
     bg: "linear-gradient(135deg,#ff4d9d,#c51679)",
   },
   {
     id: 2,
     title: "Tasty Yummy Cheesy Pizza",
-    image: "/pizza.jpg",
+    image: "/burger2.png",
     bg: "linear-gradient(135deg,#ffb300,#ff6a00)",
   },
   {
     id: 3,
     title: "New Menu Galaxy Donuts Time!",
-    image: "/boritto.jpg",
+    image: "/burger2.png",
     bg: "linear-gradient(135deg,#ff1e3c,#b50019)",
   },
   {
     id: 4,
     title: "Fresh Delicious Veg Sandwich",
-    image: "/pasta.jpg",
+    image: "/burger2.png",
     bg: "linear-gradient(135deg,#8ddc55,#4caf50)",
   },
 ];
@@ -58,7 +58,7 @@ export default function Home() {
             Our most loved items by customers, carefully picked just for you!
           </p>
         </div>
-        <div className="grid grid-cols-4 gap-10">
+        <div className="grid grid-cols-4 gap-6">
           {dishes.map((dish: Dishes) => {
             return <DishesCard key={dish.id} dish={dish} />;
           })}
@@ -66,7 +66,11 @@ export default function Home() {
       </div>
       <Bento />
       <HeroSectionDesign />
-
+      <div>
+        {foodItems.map((item: Food) => {
+          return <FoodCard food={item} />;
+        })}
+      </div>
     </div>
   );
 }
