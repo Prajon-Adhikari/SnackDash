@@ -4,3 +4,10 @@ export interface Dishes {
     image: string,
     price: number,
 }
+
+export interface Food{
+    id: number,
+    title: string,
+    image: string,
+    bg: string,
+}
