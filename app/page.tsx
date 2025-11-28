@@ -8,21 +8,27 @@ import HeroSectionDesign from "./Components/HeroSectionDesign";
 import FoodCard from "./Components/FoodCard";
 
 const dishes: Dishes[] = [
-  { id: 1, name: "Pizza", image: "/pizza.jpg", price: 300 },
-  { id: 2, name: "Burger", image: "/burger.jpg", price: 400 },
-  { id: 3, name: "Boritto", image: "/boritto.jpg", price: 500 },
-  { id: 4, name: "MoMo", image: "/momo.jpg", price: 200 },
-  { id: 5, name: "Chaumin", image: "/chaumin.jpg", price: 200 },
-  { id: 6, name: "Paella", image: "/paella.jpg", price: 700 },
-  { id: 7, name: "Fish & chips", image: "/fishandchip.jpg", price: 500 },
-  { id: 8, name: "Pasta", image: "/pasta.jpg", price: 250 },
+  { id: 1, name: "Pizza", category: "", image: "/pizza.jpg", price: 300 },
+  { id: 2, name: "Burger", category: "", image: "/burger.jpg", price: 400 },
+  { id: 3, name: "Boritto", category: "", image: "/boritto.jpg", price: 500 },
+  { id: 4, name: "MoMo", category: "", image: "/momo.jpg", price: 200 },
+  { id: 5, name: "Chaumin", category: "", image: "/chaumin.jpg", price: 200 },
+  { id: 6, name: "Paella", category: "", image: "/paella.jpg", price: 700 },
+  {
+    id: 7,
+    name: "Fish & chips",
+    category: "",
+    image: "/fishandchip.jpg",
+    price: 500,
+  },
+  { id: 8, name: "Pasta", category: "", image: "/pasta.jpg", price: 250 },
 ];
 
 export default function Home() {
   return (
     <div>
       <Hero />
-          <FoodCard />
+      <FoodCard />
       <div className=" my-20 mx-30">
         <div className="mb-10">
           <h2 className="text-5xl font-bold text-gray-900">

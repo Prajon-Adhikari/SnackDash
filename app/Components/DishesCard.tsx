@@ -1,6 +1,7 @@
 import { Dishes } from "@/interfaces/interface";
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Props {
   dish: Dishes;
@@ -14,7 +15,7 @@ export default function DishesCard({ dish }: Props) {
         <Image
           src={dish.image}
           alt={dish.name}
-         fill
+          fill
           className=" object-cover group-hover:scale-105 transition-transform duration-300"
         />
 
@@ -42,9 +43,11 @@ export default function DishesCard({ dish }: Props) {
         </div>
 
         {/* Button */}
-        <button className="w-full mt-4 bg-gray-900 cursor-pointer text-white py-2 rounded-xl text-sm font-medium hover:bg-gray-800 transition-all">
-          See Details
-        </button>
+        <Link href={`/dish/${dish.name}`}>
+          <button className="w-full mt-4 bg-gray-900 cursor-pointer text-white py-2 rounded-xl text-sm font-medium hover:bg-gray-800 transition-all">
+            See Details
+          </button>
+        </Link>
       </div>
     </div>
   );
