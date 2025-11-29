@@ -1,3 +1,9 @@
+export interface User {
+  fullName: string;
+  email: string;
+  password: string;
+}
+
 export interface Dishes {
   id: number;
   name: string;
