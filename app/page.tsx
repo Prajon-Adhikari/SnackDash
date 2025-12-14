@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Hero from "./Components/Hero";
 import Navbar from "./Components/Navbar";
@@ -6,6 +8,7 @@ import { Dishes, Food } from "@/interfaces/interface";
 import Bento from "./Components/Bento";
 import HeroSectionDesign from "./Components/HeroSectionDesign";
 import FoodCard from "./Components/FoodCard";
+import { useAuth } from "@/context/AuthContext";
 
 const dishes: Dishes[] = [
   { id: 1, name: "Pizza", category: "", image: "/pizza.jpg", price: 300 },
@@ -25,9 +28,12 @@ const dishes: Dishes[] = [
 ];
 
 export default function Home() {
+  const { user } = useAuth();
+  if (!user) return <p>No user logged in</p>;
   return (
     <div>
       <Hero />
+      {user.fullName}
       <FoodCard />
       <div className=" my-20 mx-30">
         <div className="mb-10">
