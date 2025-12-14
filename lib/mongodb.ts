@@ -1,29 +1,20 @@
-import { MongoClient } from "mongodb";
+import mongoose from "mongoose";
 
-const uri = process.env.MONGODB_URI as string;
-const options = {};
+const MONGO_URI = process.env.DATABASE_URL;
 
-let client: MongoClient;
-let clientPromise: Promise<MongoClient>;
-
-if (!process.env.MONGODB_URI) {
-  throw new Error("Please add MONGODB_URI to your .env.local file");
+if (!MONGO_URI) {
+  throw new Error("Please menetion mongo uri in .env file");
 }
 
-declare global {
-  // allow global var in TS
-  var _mongoClientPromise: Promise<MongoClient> | undefined;
-}
+const connectDB = async () => {
+  try {
+    if (mongoose.connection.readyState >= 1) return;
 
-if (process.env.NODE_ENV === "development") {
-  if (!global._mongoClientPromise) {
-    client = new MongoClient(uri, options);
-    global._mongoClientPromise = client.connect();
+    await mongoose.connect(MONGO_URI);
+    console.log("Mongo DB connected");
+  } catch (error) {
+    console.log("Error while connecting mongodb", error);
   }
-  clientPromise = global._mongoClientPromise;
-} else {
-  client = new MongoClient(uri, options);
-  clientPromise = client.connect();
-}
+};
 
-export default clientPromise;
+export default connectDB;

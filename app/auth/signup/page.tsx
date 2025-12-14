@@ -2,6 +2,7 @@
 
 import { User } from "@/interfaces/interface";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function SignUp() {
   const [formData, setFormData] = useState<User>({
@@ -22,21 +23,14 @@ export default function SignUp() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const res = await fetch("/api/users", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const response = await axios.post("/api/auth/signup", formData);
 
-    if (!res.ok) {
-      const errorPayload = await res.json();
-      console.error("Failed to sign up user", errorPayload);
-      return;
+      console.log(response);
+      setFormData({ fullName: "", email: "", password: "" });
+    } catch (error) {
+      console.log("Failed to signup", error);
     }
-
-    const newUser = await res.json();
-    console.log({ newUser });
-    setFormData({ fullName: "", email: "", password: "" });
   };
   return (
     <div className="min-h-screen mt-14 bg-linear-to-r from-indigo-100 via-purple-100 to-pink-100 flex items-center justify-center p-6">
