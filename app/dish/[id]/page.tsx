@@ -1,30 +1,45 @@
+"use client";
+
 import Image from "next/image";
 import { Dishes } from "@/interfaces/interface";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import axiosInstance from "@/lib/axiosInstance";
 
-interface Props {
-  params: {
-    id: string;
-  };
-}
-
-export default async function Page({ params }: Props) {
-  const { id } = params;
-
-  const res = await fetch(`/api/dish/${id}`, {
-    cache: "no-store",
+export default function Page() {
+  const { id } = useParams();
+  const [product, setProduct] = useState<Dishes>({
+    _id: "",
+    name: "",
+    price: "",
+    description: "",
+    variation: [],
+    image: "",
+    rating: 0,
   });
 
-  const product: Dishes = await res.json();
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axiosInstance.get(`/dish/${id}`);
+        setProduct(response.data.product);
+      } catch (error) {
+        console.log("Failed to fetch product", error);
+      }
+    };
+    fetchProduct();
+  }, []);
+
   return (
     <div className="min-h-screen mt-14  flex justify-center py-10">
       <div className="w-full max-w-7xl p-10">
         {/* Main Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Dish Image */}
-          <div className="w-full h-80 lg:h-[420px] relative rounded-2xl overflow-hidden shadow-md">
+          <div className="w-full h-80 lg:h-105 relative rounded-2xl overflow-hidden shadow-md">
             <Image
-              src={product.image}
-              alt={product.name}
+              src={product.image || "/placeholder.png"} // fallback image
+              alt={product.name || "Dish image"}
               fill
               className="object-cover"
             />

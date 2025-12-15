@@ -20,7 +20,13 @@ export default function HeroSectionDesign() {
         </button>
       </div>
       <div className="h-96 w-190 relative">
-        <Image src={"/burger2.png"} alt="Burger Image" fill className="" />
+        <Image
+          src={"/burger2.png"}
+          alt="Burger Image"
+          sizes="100%"
+          fill
+          className=""
+        />
       </div>
     </div>
   );

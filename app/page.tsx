@@ -31,7 +31,6 @@ export default function Home() {
   return (
     <div>
       <Hero />
-      {user.fullName}
       <FoodCard />
       <div className=" my-20 mx-30">
         <div className="mb-10">

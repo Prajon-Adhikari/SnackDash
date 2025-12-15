@@ -13,6 +13,7 @@ export default function FoodCard() {
           alt="Food Image"
           width={180}
           height={200}
+          sizes="100%"
           className="object-contain absolute top-10 -right-4"
         />
         <div className="flex flex-col z-10 justify-between w-60 h-full items-start relative">
@@ -29,6 +30,7 @@ export default function FoodCard() {
           alt="Food Image"
           width={180}
           height={180}
+          sizes="100%"
           className="object-contain absolute -top-3 -right-2"
         />
         <div className="flex flex-col justify-between w-60 h-full items-start relative z-10">
@@ -45,6 +47,7 @@ export default function FoodCard() {
           alt="Food Image"
           width={120}
           height={120}
+          sizes="100%"
           className="object-contain absolute -top-2 right-3"
         />
         <div className="flex flex-col justify-between w-60 h-full items-start relative z-10">
@@ -61,6 +64,7 @@ export default function FoodCard() {
           alt="Food Image"
           width={180}
           height={180}
+          sizes="100%"
           className="object-contain absolute -top-3 -right-2"
         />
         <div className="flex flex-col justify-between w-60 h-full items-start relative z-10">

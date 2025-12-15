@@ -11,11 +11,12 @@ export default function DishesCard({ dish }: Props) {
   return (
     <div className="max-w-sm bg-white rounded-2xl cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
       {/* Image */}
-      <div className="relative w-full h-[250px] overflow-hidden">
+      <div className="relative w-full h-62.5 overflow-hidden">
         <Image
           src={dish.image}
           alt={dish.name}
           fill
+          sizes="100%"
           className=" object-cover group-hover:scale-105 transition-transform duration-300"
         />
 

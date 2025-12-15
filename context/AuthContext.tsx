@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     if (!token) {
       setLoading(false);
-      router.push("/login");
+      router.push("/auth/signin");
       return;
     }
     console.log(token);
