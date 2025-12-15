@@ -5,11 +5,13 @@ export interface User {
 }
 
 export interface Dishes {
-  id: number;
+  _id: string;
   name: string;
+  price: string;
+  description: string;
+  variation: string[];
   image: string;
-  category: string;
-  price: number;
+  rating?: number;
 }
 
 export interface Food {

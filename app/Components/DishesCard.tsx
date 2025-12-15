@@ -43,7 +43,7 @@ export default function DishesCard({ dish }: Props) {
         </div>
 
         {/* Button */}
-        <Link href={`/dish/${dish.name}`}>
+        <Link href={`/dish/${dish._id}`}>
           <button className="w-full mt-4 bg-gray-900 cursor-pointer text-white py-2 rounded-xl text-sm font-medium hover:bg-gray-800 transition-all">
             See Details
           </button>

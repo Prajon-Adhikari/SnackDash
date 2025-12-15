@@ -28,7 +28,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // 🔥 Auto-load user from token on page reload
   useEffect(() => {
     const token = localStorage.getItem("login_token");
 

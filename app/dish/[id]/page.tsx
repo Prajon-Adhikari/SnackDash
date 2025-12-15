@@ -1,14 +1,20 @@
-import React from "react";
 import Image from "next/image";
+import { Dishes } from "@/interfaces/interface";
 
 interface Props {
-  params: Promise<{
-    dishName: string;
-  }>;
+  params: {
+    id: string;
+  };
 }
 
 export default async function Page({ params }: Props) {
-  const { dishName } = await params;
+  const { id } = params;
+
+  const res = await fetch(`/api/dish/${id}`, {
+    cache: "no-store",
+  });
+
+  const product: Dishes = await res.json();
   return (
     <div className="min-h-screen mt-14  flex justify-center py-10">
       <div className="w-full max-w-7xl p-10">
@@ -17,8 +23,8 @@ export default async function Page({ params }: Props) {
           {/* Dish Image */}
           <div className="w-full h-80 lg:h-[420px] relative rounded-2xl overflow-hidden shadow-md">
             <Image
-              src={`/${dishName.toLowerCase()}.jpg`}
-              alt="Dish Image"
+              src={product.image}
+              alt={product.name}
               fill
               className="object-cover"
             />
@@ -28,13 +34,14 @@ export default async function Page({ params }: Props) {
           <div className="flex flex-col justify-between">
             {/* Title + Description */}
             <div>
-              <h1 className="text-4xl font-bold mb-2">Chicken Mo:Mo</h1>
+              <h1 className="text-4xl font-bold mb-2">{product.name}</h1>
               <p className="text-gray-600 text-lg leading-relaxed">
-                A popular Nepali dumpling served with spicy tomato-chili
-                chutney. Soft, juicy and flavorful.
+                {product.description}
               </p>
 
-              <p className="text-3xl font-bold text-green-600 mt-6">$6.99</p>
+              <p className="text-3xl font-bold text-green-600 mt-6">
+                ${product.price}
+              </p>
             </div>
 
             {/* Variations */}

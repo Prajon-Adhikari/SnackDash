@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Dishes } from "@/interfaces/interface";
 
 // Dummy Dish Data
-const dishes: Dishes[] = [
+const dishes = [
   { id: 1, name: "Pizza", category: "Veg", image: "/pizza.jpg", price: 300 },
   { id: 2, name: "Burger", category: "Veg", image: "/burger.jpg", price: 400 },
   {

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Hero from "./Components/Hero";
 import Navbar from "./Components/Navbar";
 import DishesCard from "./Components/DishesCard";
@@ -9,27 +9,25 @@ import Bento from "./Components/Bento";
 import HeroSectionDesign from "./Components/HeroSectionDesign";
 import FoodCard from "./Components/FoodCard";
 import { useAuth } from "@/context/AuthContext";
-
-const dishes: Dishes[] = [
-  { id: 1, name: "Pizza", category: "", image: "/pizza.jpg", price: 300 },
-  { id: 2, name: "Burger", category: "", image: "/burger.jpg", price: 400 },
-  { id: 3, name: "Boritto", category: "", image: "/boritto.jpg", price: 500 },
-  { id: 4, name: "MoMo", category: "", image: "/momo.jpg", price: 200 },
-  { id: 5, name: "Chaumin", category: "", image: "/chaumin.jpg", price: 200 },
-  { id: 6, name: "Paella", category: "", image: "/paella.jpg", price: 700 },
-  {
-    id: 7,
-    name: "Fish & chips",
-    category: "",
-    image: "/fishandchip.jpg",
-    price: 500,
-  },
-  { id: 8, name: "Pasta", category: "", image: "/pasta.jpg", price: 250 },
-];
+import axiosInstance from "@/lib/axiosInstance";
 
 export default function Home() {
   const { user } = useAuth();
   if (!user) return <p>No user logged in</p>;
+
+  const [dishes, setDishes] = useState<Dishes[]>([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axiosInstance.get("/dish");
+        setDishes(response.data.products);
+      } catch (error) {
+        console.log("Failed to fetch products", error);
+      }
+    };
+    fetchProducts();
+  }, []);
   return (
     <div>
       <Hero />
@@ -46,7 +44,7 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-4 gap-6">
           {dishes.map((dish: Dishes) => {
-            return <DishesCard key={dish.id} dish={dish} />;
+            return <DishesCard key={dish._id} dish={dish} />;
           })}
         </div>
       </div>
