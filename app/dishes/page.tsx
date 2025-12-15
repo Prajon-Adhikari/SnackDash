@@ -1,62 +1,31 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Dishes } from "@/interfaces/interface";
+import axiosInstance from "@/lib/axiosInstance";
 
 // Dummy Dish Data
-const dishes = [
-  { id: 1, name: "Pizza", category: "Veg", image: "/pizza.jpg", price: 300 },
-  { id: 2, name: "Burger", category: "Veg", image: "/burger.jpg", price: 400 },
-  {
-    id: 3,
-    name: "Boritto",
-    category: "Non-Veg",
-    image: "/boritto.jpg",
-    price: 500,
-  },
-  { id: 4, name: "MoMo", category: "Veg", image: "/momo.jpg", price: 200 },
-  {
-    id: 5,
-    name: "Chaumin",
-    category: "Veg",
-    image: "/chaumin.jpg",
-    price: 200,
-  },
-  {
-    id: 6,
-    name: "Paella",
-    category: "Non-Veg",
-    image: "/paella.jpg",
-    price: 700,
-  },
-  {
-    id: 7,
-    name: "Fish & chips",
-    category: "Non-Veg",
-    image: "/fishandchip.jpg",
-    price: 500,
-  },
-  { id: 8, name: "Pasta", category: "Veg", image: "/pasta.jpg", price: 250 },
-];
 
 const categories = ["All", "Veg", "Non-Veg", "Drinks"];
 
 export default function DishPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [search, setSearch] = useState("");
+  const [dishes, setDishes] = useState<Dishes[]>([]);
 
-  const filteredDishes = dishes.filter((dish) => {
-    const matchesCategory =
-      selectedCategory === "All" || dish.category === selectedCategory;
-
-    const matchesSearch = dish.name
-      .toLowerCase()
-      .includes(search.toLowerCase());
-
-    return matchesCategory && matchesSearch;
-  });
+  useEffect(() => {
+    const fetchDishes = async () => {
+      try {
+        const response = await axiosInstance.get("/dish");
+        setDishes(response.data.products);
+      } catch (error) {
+        console.log("Failed to fetched products", error);
+      }
+    };
+    fetchDishes();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 mt-12">
@@ -91,23 +60,22 @@ export default function DishPage() {
 
         {/* Dish Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredDishes.map((dish) => (
-            <Link key={dish.id} href={`/dish/${dish.name.toLowerCase()}`}>
+          {dishes.map((dish: Dishes) => (
+            <Link key={dish._id} href={`/dish/${dish.name.toLowerCase()}`}>
               <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition p-4 cursor-pointer">
                 <div className="w-full h-48 relative rounded-xl overflow-hidden">
                   <Image
                     src={dish.image}
                     alt={dish.name}
                     fill
+                    sizes="100%"
                     className="object-cover"
                   />
                 </div>
 
                 <h2 className="text-xl font-semibold mt-4">{dish.name}</h2>
-                <p className="text-gray-500">{dish.category}</p>
-                <p className="text-green-600 font-bold mt-1">
-                  ${dish.price.toFixed(2)}
-                </p>
+                {/* <p className="text-gray-500">{dish.category}</p> */}
+                <p className="text-green-600 font-bold mt-1">${dish.price}</p>
 
                 <button className="w-full mt-4 bg-gray-900 text-white py-2 rounded-xl text-sm hover:bg-gray-800">
                   See Details
@@ -117,7 +85,7 @@ export default function DishPage() {
           ))}
         </div>
 
-        {filteredDishes.length === 0 && (
+        {dishes.length === 0 && (
           <p className="text-center text-gray-500 mt-10 text-lg">
             No dishes found 😕
           </p>

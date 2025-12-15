@@ -42,7 +42,7 @@ export default function Home() {
           </p>
         </div>
         <div className="grid grid-cols-4 gap-6">
-          {dishes.map((dish: Dishes) => {
+          {dishes.slice(0, 8).map((dish: Dishes) => {
             return <DishesCard key={dish._id} dish={dish} />;
           })}
         </div>
