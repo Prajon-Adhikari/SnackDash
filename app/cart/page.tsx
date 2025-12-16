@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import { useCart } from "@/context/CartContext";
+import Link from "next/link";
 
 export default function CartPage() {
   const { items } = useCart();
@@ -88,9 +89,11 @@ export default function CartPage() {
                 </div>
               </div>
 
-              <button className="mt-6 w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition">
-                Proceed to Checkout
-              </button>
+              <Link href="/payment">
+                <button className="mt-6 w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition">
+                  Proceed to Checkout
+                </button>
+              </Link>
             </div>
           </div>
         )}

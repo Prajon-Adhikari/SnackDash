@@ -3,7 +3,7 @@
 export default function Hero() {
   return (
     <div
-      className="relative overflow-hidden py-[118px] h-screen flex justify-center "
+      className="relative overflow-hidden py-29.5 h-screen flex justify-center "
       style={{
         backgroundImage: `url("/heroImage.png")`,
         backgroundSize: "cover",
