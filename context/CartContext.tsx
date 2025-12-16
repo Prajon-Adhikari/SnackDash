@@ -13,6 +13,8 @@ interface CartItem {
 interface CartContextType {
   items: CartItem[];
   addToCart: (productId: string, quantity: number) => Promise<void>;
+  updateCart: (productId: string, quantity: number) => Promise<void>;
+  deleteFromCart: (productId: string) => Promise<void>;
   itemLength: Number;
 }
 
@@ -54,9 +56,36 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const updateCart = async (productId: String, quantity: Number) => {
+    try {
+      await axiosInstance.patch("/cart", {
+        productId,
+        quantity,
+      });
+      await fetchCart();
+    } catch (error) {
+      console.log("Failed to add cart", error);
+    }
+  };
+
+  const deleteFromCart = async (productId: String) => {
+    try {
+      await axiosInstance.delete("/cart", { data: { productId } });
+      await fetchCart();
+    } catch (error) {
+      console.log("Failed to add cart", error);
+    }
+  };
+
   return (
     <CartContext.Provider
-      value={{ items, addToCart, itemLength: items.length }}
+      value={{
+        items,
+        addToCart,
+        updateCart,
+        deleteFromCart,
+        itemLength: items.length,
+      }}
     >
       {children}
     </CartContext.Provider>

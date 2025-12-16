@@ -1,13 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 
 export default function CartPage() {
-  const { items } = useCart();
+  const { items, deleteFromCart, updateCart } = useCart();
 
   const subtotal = items.reduce(
     (sum, item) => sum + Number(item.product.price) * item.quantity,
@@ -48,11 +47,25 @@ export default function CartPage() {
                     <p className="text-gray-500">Rs. {item.product.price}</p>
 
                     <div className="flex items-center gap-3 mt-4">
-                      <button className="p-2 bg-gray-100 rounded hover:bg-gray-200">
+                      <button
+                        className="p-2 bg-gray-100 rounded hover:bg-gray-200"
+                        onClick={() => {
+                          if (item.quantity >= 1) {
+                            updateCart(item.product._id, item.quantity - 1);
+                          }
+                        }}
+                      >
                         <FaMinus size={14} />
                       </button>
                       <span className="font-medium">{item.quantity}</span>
-                      <button className="p-2 bg-gray-100 rounded hover:bg-gray-200">
+                      <button
+                        className="p-2 bg-gray-100 rounded hover:bg-gray-200"
+                        onClick={() => {
+                          if (item.quantity >= 1) {
+                            updateCart(item.product._id, item.quantity + 1);
+                          }
+                        }}
+                      >
                         <FaPlus size={14} />
                       </button>
                     </div>
@@ -62,7 +75,10 @@ export default function CartPage() {
                     <p className="font-semibold">
                       Rs. {Number(item.product.price) * item.quantity}
                     </p>
-                    <button className="text-red-500 hover:text-red-600">
+                    <button
+                      className="text-red-500 hover:text-red-600"
+                      onClick={() => deleteFromCart(item.product._id)}
+                    >
                       <FaTrash />
                     </button>
                   </div>

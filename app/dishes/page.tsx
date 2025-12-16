@@ -61,7 +61,7 @@ export default function DishPage() {
         {/* Dish Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {dishes.map((dish: Dishes) => (
-            <Link key={dish._id} href={`/dish/${dish.name.toLowerCase()}`}>
+            <Link key={dish._id} href={`/dish/${dish._id}`}>
               <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition p-4 cursor-pointer">
                 <div className="w-full h-48 relative rounded-xl overflow-hidden">
                   <Image

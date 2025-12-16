@@ -86,11 +86,21 @@ export default function Page() {
               <h2 className="text-xl font-semibold mb-4">Quantity</h2>
 
               <div className="flex items-center gap-5">
-                <button className="w-12 h-12 border rounded-xl text-2xl">
+                <button
+                  className="w-12 h-12 border rounded-xl text-2xl"
+                  onClick={() => {
+                    if (Number(quantity) > 1) {
+                      setQuantity(Number(quantity) - 1);
+                    }
+                  }}
+                >
                   -
                 </button>
                 <p className="text-2xl font-medium">{Number(quantity)}</p>
-                <button className="w-12 h-12 border rounded-xl text-2xl">
+                <button
+                  className="w-12 h-12 border rounded-xl text-2xl"
+                  onClick={() => setQuantity(Number(quantity) + 1)}
+                >
                   +
                 </button>
               </div>
