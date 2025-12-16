@@ -33,7 +33,7 @@ export default function SignUp() {
     }
   };
   return (
-    <div className="min-h-screen mt-14 bg-linear-to-r from-indigo-100 via-purple-100 to-pink-100 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-linear-to-r from-indigo-100 via-purple-100 to-pink-100 flex items-center justify-center p-6">
       <div className="bg-white rounded-3xl shadow-xl max-w-md w-full p-8">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Create Account

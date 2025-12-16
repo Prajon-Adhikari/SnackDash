@@ -48,7 +48,7 @@ export default function CartPage() {
 
                     <div className="flex items-center gap-3 mt-4">
                       <button
-                        className="p-2 bg-gray-100 rounded hover:bg-gray-200"
+                        className="p-2 bg-gray-100 rounded hover:bg-gray-200 cursor-pointer"
                         onClick={() => {
                           if (item.quantity >= 1) {
                             updateCart(item.product._id, item.quantity - 1);
@@ -59,7 +59,7 @@ export default function CartPage() {
                       </button>
                       <span className="font-medium">{item.quantity}</span>
                       <button
-                        className="p-2 bg-gray-100 rounded hover:bg-gray-200"
+                        className="p-2 bg-gray-100 rounded hover:bg-gray-200 cursor-pointer"
                         onClick={() => {
                           if (item.quantity >= 1) {
                             updateCart(item.product._id, item.quantity + 1);
@@ -76,7 +76,7 @@ export default function CartPage() {
                       Rs. {Number(item.product.price) * item.quantity}
                     </p>
                     <button
-                      className="text-red-500 hover:text-red-600"
+                      className="text-red-500 hover:text-red-600 cursor-pointer"
                       onClick={() => deleteFromCart(item.product._id)}
                     >
                       <FaTrash />
@@ -106,7 +106,7 @@ export default function CartPage() {
               </div>
 
               <Link href="/payment">
-                <button className="mt-6 w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition">
+                <button className="mt-6 w-full cursor-pointer bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition">
                   Proceed to Checkout
                 </button>
               </Link>

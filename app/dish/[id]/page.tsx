@@ -87,7 +87,7 @@ export default function Page() {
 
               <div className="flex items-center gap-5">
                 <button
-                  className="w-12 h-12 border rounded-xl text-2xl"
+                  className="w-12 h-12 border rounded-xl text-2xl cursor-pointer"
                   onClick={() => {
                     if (Number(quantity) > 1) {
                       setQuantity(Number(quantity) - 1);
@@ -98,7 +98,7 @@ export default function Page() {
                 </button>
                 <p className="text-2xl font-medium">{Number(quantity)}</p>
                 <button
-                  className="w-12 h-12 border rounded-xl text-2xl"
+                  className="w-12 h-12 border rounded-xl text-2xl cursor-pointer"
                   onClick={() => setQuantity(Number(quantity) + 1)}
                 >
                   +

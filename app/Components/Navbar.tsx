@@ -23,8 +23,10 @@ export default function Navbar() {
 
   const isActive = (href: string) => pathname === href;
 
-  // Scroll listener to toggle navbar background
+  // Scroll listener only matters on home page
   useEffect(() => {
+    if (pathname !== "/") return; // Only enable scroll effect on home
+
     const handleScroll = () => {
       if (window.scrollY > 50) setScrolled(true);
       else setScrolled(false);
@@ -32,20 +34,27 @@ export default function Navbar() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [pathname]);
+
+  // Determine navbar classes
+  const navClasses =
+    pathname === "/"
+      ? `fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${
+          scrolled ? "bg-white shadow-md" : "bg-transparent"
+        }`
+      : "fixed top-0 left-0 w-full z-50 bg-white shadow-md";
+
+  const hideNavbar = ["/auth/signin", "/auth/signup"].includes(pathname);
+  if (hideNavbar) return null;
 
   return (
-    <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${
-        scrolled ? "bg-white shadow-md" : "bg-transparent"
-      }`}
-    >
+    <nav className={navClasses}>
       <div className="mx-18 px-4 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link
           href="/"
           className={`text-xl font-bold transition-colors duration-300 ${
-            scrolled ? "text-black" : "text-black"
+            pathname === "/" && !scrolled ? "text-white" : "text-black"
           }`}
         >
           MySite
@@ -59,12 +68,12 @@ export default function Navbar() {
               href={link.href}
               className={`px-2 py-1 rounded transition-colors duration-300 ${
                 isActive(link.href)
-                  ? scrolled
-                    ? "bg-black text-white"
-                    : "bg-white/20 text-black"
-                  : scrolled
-                  ? "text-gray-700 hover:bg-gray-100"
-                  : "text-black hover:bg-white/20"
+                  ? pathname === "/" && !scrolled
+                    ? "bg-white/20 text-black"
+                    : "bg-black text-white"
+                  : pathname === "/" && !scrolled
+                  ? "text-white hover:bg-white/20"
+                  : "text-gray-700 hover:bg-gray-100"
               }`}
             >
               {link.name}
@@ -82,7 +91,7 @@ export default function Navbar() {
         <button
           onClick={() => setOpen(!open)}
           className={`md:hidden text-3xl transition-colors duration-300 ${
-            scrolled ? "text-black" : "text-white"
+            pathname === "/" && !scrolled ? "text-white" : "text-black"
           }`}
         >
           {open ? <HiX /> : <HiMenu />}
@@ -93,7 +102,9 @@ export default function Navbar() {
       {open && (
         <div
           className={`md:hidden px-6 py-4 flex flex-col gap-3 font-medium transition-colors duration-300 ${
-            scrolled ? "bg-white" : "bg-black/80 text-white"
+            pathname === "/" && !scrolled
+              ? "bg-black/80 text-white"
+              : "bg-white"
           }`}
         >
           {links.map((link) => (
@@ -103,12 +114,12 @@ export default function Navbar() {
               onClick={() => setOpen(false)}
               className={`px-2 py-1 rounded ${
                 isActive(link.href)
-                  ? scrolled
-                    ? "bg-black text-white"
-                    : "bg-white/30 text-white"
-                  : scrolled
-                  ? "text-gray-700 hover:bg-gray-100"
-                  : "text-white hover:bg-white/20"
+                  ? pathname === "/" && !scrolled
+                    ? "bg-white/30 text-white"
+                    : "bg-black text-white"
+                  : pathname === "/" && !scrolled
+                  ? "text-white hover:bg-white/20"
+                  : "text-gray-700 hover:bg-gray-100"
               }`}
             >
               {link.name}
