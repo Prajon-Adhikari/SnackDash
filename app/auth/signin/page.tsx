@@ -43,7 +43,7 @@ export default function Signup() {
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-indigo-600 to-purple-600 p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Create Account
+          Log In to your Account
         </h2>
 
         <form className="space-y-5" onSubmit={handleSubmit}>
@@ -91,7 +91,7 @@ export default function Signup() {
 
         <p className="text-sm text-center text-gray-500 mt-6">
           Don't have an account?{" "}
-          <a href="#" className="text-indigo-600 hover:underline">
+          <a href="/auth/signup" className="text-indigo-600 hover:underline">
             SignUp
           </a>
         </p>

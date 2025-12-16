@@ -5,6 +5,7 @@ import { Dishes } from "@/interfaces/interface";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axiosInstance from "@/lib/axiosInstance";
+import { useCart } from "@/context/CartContext";
 
 export default function Page() {
   const { id } = useParams();
@@ -20,6 +21,8 @@ export default function Page() {
   });
   const [quantity, setQuantity] = useState<Number>(1);
 
+  const { addToCart } = useCart();
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -31,18 +34,6 @@ export default function Page() {
     };
     fetchProduct();
   }, []);
-
-  const addToCart = async () => {
-    try {
-      await axiosInstance.post("/cart", {
-        productId: product._id,
-        quantity,
-      });
-      router.push("/");
-    } catch (error) {
-      console.log("Failed to add cart", error);
-    }
-  };
 
   return (
     <div className="min-h-screen mt-14  flex justify-center py-10">
@@ -107,7 +98,7 @@ export default function Page() {
 
             {/* Add to Cart */}
             <button
-              onClick={addToCart}
+              onClick={() => addToCart(product._id, Number(quantity))}
               className="mt-10 w-full bg-black text-white text-lg font-semibold py-4 rounded-xl hover:bg-gray-800 transition"
             >
               Add to Cart

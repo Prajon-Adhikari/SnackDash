@@ -4,18 +4,21 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
 import { usePathname } from "next/navigation";
+import { MdOutlineShoppingBag } from "react-icons/md";
+import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
+  const { itemLength } = useCart();
+
   const links = [
     { name: "Home", href: "/" },
     { name: "Dishes", href: "/dishes" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
-    { name: "Cart", href: "/cart" },
   ];
 
   const isActive = (href: string) => pathname === href;
@@ -49,7 +52,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex gap-6 font-medium">
+        <div className="hidden md:flex items-center gap-6 font-medium">
           {links.map((link) => (
             <Link
               key={link.href}
@@ -67,6 +70,12 @@ export default function Navbar() {
               {link.name}
             </Link>
           ))}
+          <Link href={"/cart"} className="relative">
+            <MdOutlineShoppingBag className="text-xl" />
+            <span className="bg-red-500 text-white absolute text-xs -top-2 -right-1 w-4 h-4 flex justify-center items-center rounded-full">
+              {Number(itemLength)}
+            </span>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}

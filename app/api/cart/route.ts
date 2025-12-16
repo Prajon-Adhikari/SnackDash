@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import Cart, { ICartProduct } from "@/model/Cart";
+import Cart, { ICart, ICartProduct } from "@/model/Cart";
 import { verifyToken } from "@/utils/verifyToken";
 import mongoose from "mongoose";
 
@@ -58,6 +58,32 @@ export async function POST(req: NextRequest) {
     console.log("Failed to add to cart", error);
     return NextResponse.json(
       { message: "Failed to add to cart" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET(req: NextRequest) {
+  try {
+    const decoded = verifyToken(req);
+
+    if (!decoded) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const userId = decoded.userId;
+
+    const cart = await Cart.findOne({ userId }).populate("items.product");
+
+    if (!cart) {
+      return NextResponse.json({ items: [] }, { status: 200 });
+    }
+
+    return NextResponse.json({ message: "Fetching cart products", cart });
+  } catch (error) {
+    console.log("Failed to fetch cart products", error);
+    return NextResponse.json(
+      { message: "Failed to fetch cart products" },
       { status: 500 }
     );
   }
