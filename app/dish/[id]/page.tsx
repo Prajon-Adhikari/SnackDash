@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import { Dishes } from "@/interfaces/interface";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axiosInstance from "@/lib/axiosInstance";
 
 export default function Page() {
   const { id } = useParams();
+  const router = useRouter();
   const [product, setProduct] = useState<Dishes>({
     _id: "",
     name: "",
@@ -17,6 +18,7 @@ export default function Page() {
     image: "",
     rating: 0,
   });
+  const [quantity, setQuantity] = useState<Number>(1);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -29,6 +31,18 @@ export default function Page() {
     };
     fetchProduct();
   }, []);
+
+  const addToCart = async () => {
+    try {
+      await axiosInstance.post("/cart", {
+        productId: product._id,
+        quantity,
+      });
+      router.push("/");
+    } catch (error) {
+      console.log("Failed to add cart", error);
+    }
+  };
 
   return (
     <div className="min-h-screen mt-14  flex justify-center py-10">
@@ -84,7 +98,7 @@ export default function Page() {
                 <button className="w-12 h-12 border rounded-xl text-2xl">
                   -
                 </button>
-                <p className="text-2xl font-medium">1</p>
+                <p className="text-2xl font-medium">{Number(quantity)}</p>
                 <button className="w-12 h-12 border rounded-xl text-2xl">
                   +
                 </button>
@@ -92,7 +106,10 @@ export default function Page() {
             </div>
 
             {/* Add to Cart */}
-            <button className="mt-10 w-full bg-black text-white text-lg font-semibold py-4 rounded-xl hover:bg-gray-800 transition">
+            <button
+              onClick={addToCart}
+              className="mt-10 w-full bg-black text-white text-lg font-semibold py-4 rounded-xl hover:bg-gray-800 transition"
+            >
               Add to Cart
             </button>
           </div>
