@@ -33,7 +33,7 @@ export default function PaymentSuccess() {
 
         {/* Buttons */}
         <div className="mt-6 flex flex-col gap-3">
-          <Link href="/orders">
+          <Link href="/order">
             <button className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition">
               View My Orders
             </button>
