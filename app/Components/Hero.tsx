@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -20,9 +21,11 @@ export default function Hero() {
           maiores id dignissimos eum voluptate alias nulla, doloremque in quos
           est.
         </p>
-        <button className="uppercase bg-yellow-500 text-white px-4 py-1.5 rounded-2xl mt-4">
-          Order Now
-        </button>
+        <Link href={"/dishes"}>
+          <button className="uppercase cursor-pointer bg-yellow-500 text-white px-4 py-1.5 rounded-2xl mt-4">
+            Order Now
+          </button>
+        </Link>
       </div>
     </div>
   );
