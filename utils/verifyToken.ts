@@ -14,7 +14,6 @@ export function verifyToken(req: NextRequest): JwtPayload | null {
 
   try {
     const authHeader = req.headers.get("authorization");
-    console.log("Error here", authHeader);
     if (!authHeader || !authHeader.startsWith("Bearer")) {
       return null;
     }

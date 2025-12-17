@@ -1,8 +1,9 @@
 import mongoose, { Schema, model, Document, Types } from "mongoose";
 import User from "@/model/User";
+import Product, { IProduct } from "./Product";
 
 export interface ICartProduct {
-  product: Types.ObjectId;
+  product: Types.ObjectId | IProduct;
   quantity: number;
 }
 
