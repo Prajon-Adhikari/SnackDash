@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { FaCheckCircle, FaBox } from "react-icons/fa";
 import axiosInstance from "@/lib/axiosInstance";
+import { FaShoppingBag } from "react-icons/fa";
+import Link from "next/link";
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<any[]>([]);
@@ -28,7 +30,28 @@ export default function OrdersPage() {
   }
 
   if (orders.length === 0) {
-    return <div className="text-center mt-20">No orders found</div>;
+    return (
+      <div className="min-h-[90vh] flex items-center justify-center px-4">
+        <div className="text-center max-w-md">
+          <FaShoppingBag className="text-6xl text-gray-400 mx-auto mb-6" />
+
+          <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+            No Orders Yet
+          </h2>
+
+          <p className="text-gray-500 mb-8">
+            Looks like you haven’t placed any orders yet. Start exploring our
+            delicious menu and place your first order today.
+          </p>
+
+          <Link href="/dishes">
+            <button className="bg-black cursor-pointer text-white px-6 py-3 rounded-full hover:bg-gray-800 transition">
+              Browse Menu
+            </button>
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   return (
