@@ -3,14 +3,18 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { MdOutlineShoppingBag } from "react-icons/md";
+import { FaUserCircle } from "react-icons/fa";
 import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const [showProfileDropdown, setShowProfileDropdown] =
+    useState<boolean>(false);
 
   const { itemLength } = useCart();
 
@@ -19,6 +23,7 @@ export default function Navbar() {
     { name: "Dishes", href: "/dishes" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
+    { name: "Orders", href: "/order" },
   ];
 
   const isActive = (href: string) => pathname === href;
@@ -46,6 +51,12 @@ export default function Navbar() {
 
   const hideNavbar = ["/auth/signin", "/auth/signup"].includes(pathname);
   if (hideNavbar) return null;
+
+  const handleLogOut = () => {
+    localStorage.removeItem("login_token");
+    router.push("/auth/signin");
+    setShowProfileDropdown(false);
+  };
 
   return (
     <nav className={navClasses}>
@@ -85,6 +96,25 @@ export default function Navbar() {
               {Number(itemLength)}
             </span>
           </Link>
+          <div className="relative">
+            <FaUserCircle
+              className="text-2xl cursor-pointer"
+              onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+            />
+            {showProfileDropdown && (
+              <div className="absolute w-30 border bg-white -left-10 top-7 shadow-xl">
+                <p className="border-b py-1.5 text-center hover:bg-gray-200 cursor-pointer">
+                  Profile
+                </p>
+                <p
+                  onClick={handleLogOut}
+                  className="py-1.5 text-center hover:bg-gray-200 cursor-pointer"
+                >
+                  Log Out
+                </p>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Mobile Menu Button */}
