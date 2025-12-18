@@ -90,13 +90,34 @@ export default function Navbar() {
               {link.name}
             </Link>
           ))}
-          <Link href={"/cart"} className="relative">
+          <Link
+            href={"/cart"}
+            className={`relative ${
+              isActive("/cart")
+                ? pathname === "/" && !scrolled
+                  ? "bg-white/20 text-black"
+                  : "bg-white/20 text-black"
+                : pathname === "/" && !scrolled
+                ? "text-white "
+                : "text-gray-700 hover:bg-gray-100"
+            }`}
+          >
             <MdOutlineShoppingBag className="text-xl" />
             <span className="bg-red-500 text-white absolute text-xs -top-2 -right-1 w-4 h-4 flex justify-center items-center rounded-full">
               {Number(itemLength)}
             </span>
           </Link>
-          <div className="relative">
+          <div
+            className={`relative ${
+              isActive("/cart")
+                ? pathname === "/" && !scrolled
+                  ? "bg-white/20 text-black"
+                  : "bg-white/20 text-black"
+                : pathname === "/" && !scrolled
+                ? "text-white "
+                : "text-gray-700 hover:bg-gray-100"
+            }`}
+          >
             <FaUserCircle
               className="text-2xl cursor-pointer"
               onClick={() => setShowProfileDropdown(!showProfileDropdown)}

@@ -2,6 +2,7 @@
 
 import { User } from "@/interfaces/interface";
 import React, { useState, useEffect } from "react";
+import { FaEnvelope, FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
 
 export default function SignUp() {
@@ -10,6 +11,8 @@ export default function SignUp() {
     email: "",
     password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -42,34 +45,34 @@ export default function SignUp() {
         <form className="space-y-5" onSubmit={handleSubmit}>
           {/* Name */}
           <div>
-            <label htmlFor="name" className="text-gray-600 font-medium">
-              Full Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              placeholder="John Doe"
-              className="w-full mt-2 p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            />
+            <label className="text-sm text-gray-600">FullName</label>
+            <div className="relative mt-2">
+              <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                placeholder="you@example.com"
+                className="w-full pl-11 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
+              />
+            </div>
           </div>
 
           {/* Email */}
           <div>
-            <label htmlFor="email" className="text-gray-600 font-medium">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="example@gmail.com"
-              className="w-full mt-2 p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            />
+            <label className="text-sm text-gray-600">Email</label>
+            <div className="relative mt-2">
+              <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="you@example.com"
+                className="w-full pl-11 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
+              />
+            </div>
           </div>
 
           {/* Password */}
@@ -77,15 +80,24 @@ export default function SignUp() {
             <label htmlFor="password" className="text-gray-600 font-medium">
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Enter your password"
-              className="w-full mt-2 p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            />
+            <div className="relative mt-2">
+              <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+                className="w-full pl-11 pr-12 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
           </div>
 
           {/* Signup Button */}
