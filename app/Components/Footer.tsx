@@ -7,7 +7,7 @@ export default function Footer() {
   const hideFooter = ["/auth/signup", "/auth/signin"].includes(pathname);
   if (hideFooter) return null;
   return (
-    <footer className="bg-gray-900 text-gray-300 py-10 mt-16">
+    <footer className="bg-gray-900 text-gray-300 py-10 mt-10">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10">
         {/* Brand */}
         <div>
