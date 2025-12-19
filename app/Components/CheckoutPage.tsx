@@ -19,7 +19,7 @@ export default function CheckoutPage({ amount }: { amount: number }) {
     const fetchPaymentIntent = async () => {
       try {
         const response = await axiosInstance.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/create-payment-intent`,
+          `${process.env.API_URL}/create-payment-intent`,
           {
             amount,
           }
