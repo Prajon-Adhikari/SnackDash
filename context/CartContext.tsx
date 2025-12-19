@@ -4,6 +4,7 @@ import { Dishes } from "@/interfaces/interface";
 import axiosInstance from "@/lib/axiosInstance";
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "./AuthContext";
 
 interface CartItem {
   product: Dishes;
@@ -21,6 +22,7 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | null>(null);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
+  const { user, loading: authLoading } = useAuth();
   const [items, setItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -40,8 +42,10 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    fetchCart();
-  }, []);
+    if (!authLoading && user) {
+      fetchCart();
+    }
+  }, [authLoading, user]);
 
   const addToCart = async (productId: String, quantity: Number) => {
     try {

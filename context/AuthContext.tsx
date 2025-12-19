@@ -19,6 +19,7 @@ interface User {
 interface AuthType {
   user: User | null;
   setUser: (user: User) => void;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthType | null>(null);
@@ -51,10 +52,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p>Loadings...</p>;
-
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, setUser, loading }}>
       {children}
     </AuthContext.Provider>
   );
