@@ -18,9 +18,12 @@ export default function CheckoutPage({ amount }: { amount: number }) {
   useEffect(() => {
     const fetchPaymentIntent = async () => {
       try {
-        const response = await axiosInstance.post("/create-payment-intent", {
-          amount,
-        });
+        const response = await axiosInstance.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/create-payment-intent`,
+          {
+            amount,
+          }
+        );
         console.log({ response });
         setClientSecret(response.data.clientSecret);
       } catch (error) {

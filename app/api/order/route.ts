@@ -1,9 +1,11 @@
 import { NextResponse, NextRequest } from "next/server";
 import Order from "@/model/Order";
 import { verifyToken } from "@/utils/verifyToken";
+import connectDB from "@/lib/mongodb";
 
 export async function GET(req: NextRequest) {
   try {
+    await connectDB();
     const decoded = verifyToken(req);
 
     if (!decoded) {
