@@ -28,9 +28,11 @@ export default function Signin() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/auth/signin", formData);
-      localStorage.setItem("login_token", response.data.token);
+      await axios.post("/api/auth/signin", formData, {
+        withCredentials: true,
+      });
       router.push("/");
+      router.refresh();
     } catch (error) {
       console.log("Failed to login", error);
     }

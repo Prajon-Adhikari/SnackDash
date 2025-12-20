@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 export interface JwtPayload {
   userId: string;
@@ -13,17 +13,12 @@ export function verifyToken(req: NextRequest): JwtPayload | null {
   }
 
   try {
-    const authHeader = req.headers.get("authorization");
-    if (!authHeader || !authHeader.startsWith("Bearer")) {
-      return null;
-    }
+    const token = req.cookies.get("token")?.value;
 
-    const token = authHeader.split(" ")[1];
+    if (!token) return null;
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET) as JwtPayload;
-
-    return decoded;
-  } catch (error) {
+    return jwt.verify(token, process.env.JWT_SECRET) as JwtPayload;
+  } catch {
     return null;
   }
 }

@@ -8,7 +8,6 @@ export async function GET(req: NextRequest) {
     await dbConnect();
 
     const decoded = verifyToken(req);
-    console.log("decoded", decoded);
 
     if (!decoded) {
       return NextResponse.json(

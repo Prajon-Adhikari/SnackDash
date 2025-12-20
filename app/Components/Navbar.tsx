@@ -6,17 +6,35 @@ import { HiMenu, HiX } from "react-icons/hi";
 import { usePathname, useRouter } from "next/navigation";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { FaUserCircle } from "react-icons/fa";
+import axiosInstance from "@/lib/axiosInstance";
+
+// Optional context hooks
+import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+
   const pathname = usePathname();
   const router = useRouter();
-  const [showProfileDropdown, setShowProfileDropdown] =
-    useState<boolean>(false);
 
-  const { itemLength } = useCart();
+  // Optional Auth & Cart context
+  let authContext = null;
+  let cartContext = null;
+
+  try {
+    authContext = useAuth();
+  } catch {}
+
+  try {
+    cartContext = useCart();
+  } catch {}
+
+  const user = authContext?.user ?? null;
+  const setUser = authContext?.setUser;
+  const itemLength = cartContext?.itemLength ?? 0;
 
   const links = [
     { name: "Home", href: "/" },
@@ -28,20 +46,18 @@ export default function Navbar() {
 
   const isActive = (href: string) => pathname === href;
 
-  // Scroll listener only matters on home page
+  // Scroll effect for home page only
   useEffect(() => {
-    if (pathname !== "/") return; // Only enable scroll effect on home
+    if (pathname !== "/") return;
 
     const handleScroll = () => {
-      if (window.scrollY > 50) setScrolled(true);
-      else setScrolled(false);
+      setScrolled(window.scrollY > 50);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
 
-  // Determine navbar classes
   const navClasses =
     pathname === "/"
       ? `fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${
@@ -49,13 +65,19 @@ export default function Navbar() {
         }`
       : "fixed top-0 left-0 w-full z-50 bg-white shadow-md";
 
-  const hideNavbar = ["/auth/signin", "/auth/signup"].includes(pathname);
-  if (hideNavbar) return null;
+  // Hide Navbar on auth pages
+  if (["/auth/signin", "/auth/signup"].includes(pathname)) return null;
 
-  const handleLogOut = () => {
-    localStorage.removeItem("login_token");
-    router.push("/auth/signin");
-    setShowProfileDropdown(false);
+  // Logout (only if AuthProvider exists)
+  const logout = async () => {
+    if (!setUser) return;
+    try {
+      await axiosInstance.post("/auth/logout");
+      setUser(null);
+      router.push("/auth/signin");
+    } catch (err) {
+      console.log("Logout failed", err);
+    }
   };
 
   return (
@@ -90,52 +112,49 @@ export default function Navbar() {
               {link.name}
             </Link>
           ))}
+
+          {/* Cart Icon */}
           <Link
             href={"/cart"}
             className={`relative ${
-              isActive("/cart")
-                ? pathname === "/" && !scrolled
-                  ? "bg-white/20 text-black"
-                  : "bg-white/20 text-black"
-                : pathname === "/" && !scrolled
-                ? "text-white "
-                : "text-gray-700 hover:bg-gray-100"
+              pathname === "/" && !scrolled ? "text-white" : "text-gray-700"
             }`}
           >
             <MdOutlineShoppingBag className="text-xl" />
             <span className="bg-red-500 text-white absolute text-xs -top-2 -right-1 w-4 h-4 flex justify-center items-center rounded-full">
-              {Number(itemLength)}
+              {itemLength}
             </span>
           </Link>
-          <div
-            className={`relative ${
-              isActive("/cart")
-                ? pathname === "/" && !scrolled
-                  ? "bg-white/20 text-black"
-                  : "bg-white/20 text-black"
-                : pathname === "/" && !scrolled
-                ? "text-white "
-                : "text-gray-700 hover:bg-gray-100"
-            }`}
-          >
-            <FaUserCircle
-              className="text-2xl cursor-pointer"
-              onClick={() => setShowProfileDropdown(!showProfileDropdown)}
-            />
-            {showProfileDropdown && (
-              <div className="absolute w-30 border bg-white -left-10 top-7 shadow-xl">
-                <p className="border-b py-1.5 text-center hover:bg-gray-200 cursor-pointer">
-                  Profile
-                </p>
-                <p
-                  onClick={handleLogOut}
-                  className="py-1.5 text-center hover:bg-gray-200 cursor-pointer"
-                >
-                  Log Out
-                </p>
-              </div>
-            )}
-          </div>
+
+          {/* Profile Dropdown */}
+          {user ? (
+            <div className="relative">
+              <FaUserCircle
+                className="text-2xl cursor-pointer"
+                onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+              />
+              {showProfileDropdown && (
+                <div className="absolute w-30 border bg-white -left-10 top-7 shadow-xl">
+                  <p className="border-b py-1.5 text-center hover:bg-gray-200 cursor-pointer">
+                    Profile
+                  </p>
+                  <p
+                    onClick={logout}
+                    className="py-1.5 text-center hover:bg-gray-200 cursor-pointer"
+                  >
+                    Log Out
+                  </p>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              href="/auth/signin"
+              className="text-gray-700 hover:text-black transition"
+            >
+              Sign In
+            </Link>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -176,6 +195,41 @@ export default function Navbar() {
               {link.name}
             </Link>
           ))}
+
+          {/* Cart Icon in Mobile Menu */}
+          <Link
+            href={"/cart"}
+            onClick={() => setOpen(false)}
+            className={`relative ${
+              pathname === "/" && !scrolled ? "text-white" : "text-gray-700"
+            }`}
+          >
+            <MdOutlineShoppingBag className="text-xl" />
+            <span className="bg-red-500 text-white absolute text-xs -top-2 -right-1 w-4 h-4 flex justify-center items-center rounded-full">
+              {itemLength}
+            </span>
+          </Link>
+
+          {/* Profile / Login */}
+          {user ? (
+            <p
+              onClick={() => {
+                logout();
+                setOpen(false);
+              }}
+              className="py-1.5 text-center hover:bg-gray-200 cursor-pointer"
+            >
+              Log Out
+            </p>
+          ) : (
+            <Link
+              href="/auth/signin"
+              onClick={() => setOpen(false)}
+              className="text-gray-700 hover:text-black transition text-center"
+            >
+              Sign In
+            </Link>
+          )}
         </div>
       )}
     </nav>

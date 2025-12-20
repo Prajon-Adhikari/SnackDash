@@ -1,5 +1,33 @@
 import { FaUtensils, FaLeaf, FaTruck, FaHeart } from "react-icons/fa";
 import Image from "next/image";
+
+export const metadata = {
+  title: "About Us | SnackDash",
+  description:
+    "Learn about our restaurant, our story, values, and what makes us special. Fresh, delicious meals delivered to your doorstep.",
+  openGraph: {
+    title: "About SnackDash",
+    description: "Discover our restaurant story and values.",
+    url: "https://yourdomain.com/about",
+    siteName: "SnackDash",
+    images: [
+      {
+        url: "https://yourdomain.com/og-image.jpg",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About SnackDash",
+    description: "Discover our restaurant story and values.",
+    images: ["https://yourdomain.com/og-image.jpg"],
+  },
+};
+
 export default function AboutUs() {
   return (
     <section className="w-full bg-white text-gray-800 mt-14">
@@ -95,48 +123,23 @@ export default function AboutUs() {
       <div className="max-w-7xl mx-auto px-6 py-20">
         <h2 className="text-3xl font-bold text-center mb-12">Our Kitchen</h2>
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-          <Image
-            src="/burger.jpg"
-            alt="Food"
-            width={100}
-            height={100}
-            className="rounded-2xl object-cover h-64 w-full"
-          />
-          <Image
-            src="/pasta.jpg"
-            alt="Food"
-            width={100}
-            height={100}
-            className="rounded-2xl object-cover h-64 w-full"
-          />
-          <Image
-            src="/tacos.jpg"
-            alt="Food"
-            width={100}
-            height={100}
-            className="rounded-2xl object-cover h-64 w-full"
-          />
-          <Image
-            src="/paella.jpg"
-            alt="Food"
-            width={100}
-            height={100}
-            className="rounded-2xl object-cover h-64 w-full"
-          />
-          <Image
-            src="/fishandchip.jpg"
-            alt="Food"
-            width={100}
-            height={100}
-            className="rounded-2xl object-cover h-64 w-full"
-          />
-          <Image
-            src="/boritto.jpg"
-            alt="Food"
-            width={100}
-            height={100}
-            className="rounded-2xl object-cover h-64 w-full"
-          />
+          {[
+            "/burger.jpg",
+            "/pasta.jpg",
+            "/tacos.jpg",
+            "/paella.jpg",
+            "/fishandchip.jpg",
+            "/boritto.jpg",
+          ].map((img) => (
+            <Image
+              key={img}
+              src={img}
+              alt="Food"
+              width={100}
+              height={100}
+              className="rounded-2xl object-cover h-64 w-full"
+            />
+          ))}
         </div>
       </div>
       {/* Call To Action Section */}

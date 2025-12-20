@@ -16,7 +16,7 @@ interface CartContextType {
   addToCart: (productId: string, quantity: number) => Promise<void>;
   updateCart: (productId: string, quantity: number) => Promise<void>;
   deleteFromCart: (productId: string) => Promise<void>;
-  itemLength: Number;
+  itemLength: number;
 }
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -24,60 +24,59 @@ const CartContext = createContext<CartContextType | null>(null);
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const { user, loading: authLoading } = useAuth();
   const [items, setItems] = useState<CartItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
+  // Fetch cart items from server (cookies handle auth)
   const fetchCart = async () => {
     try {
       setLoading(true);
-
       const response = await axiosInstance.get("/cart");
-      setItems(response.data.cart.items || []);
+      setItems(response.data.cart?.items || []);
     } catch (error) {
-      console.log("Failed to fetch cart product", error);
+      console.log("Failed to fetch cart:", error);
+      setItems([]); // Clear cart if fetch fails (user not logged in)
     } finally {
       setLoading(false);
     }
   };
 
+  // Fetch cart whenever user is logged in
   useEffect(() => {
-    if (!authLoading && user) {
-      fetchCart();
+    if (!authLoading) {
+      if (user) {
+        fetchCart();
+      } else {
+        setItems([]); // Clear cart for guests
+      }
     }
   }, [authLoading, user]);
 
-  const addToCart = async (productId: String, quantity: Number) => {
+  const addToCart = async (productId: string, quantity: number) => {
     try {
-      await axiosInstance.post("/cart", {
-        productId,
-        quantity,
-      });
-      router.push("/");
+      await axiosInstance.post("/cart", { productId, quantity });
       await fetchCart();
     } catch (error) {
-      console.log("Failed to add cart", error);
+      console.log("Failed to add cart:", error);
     }
   };
 
-  const updateCart = async (productId: String, quantity: Number) => {
+  const updateCart = async (productId: string, quantity: number) => {
     try {
-      await axiosInstance.patch("/cart", {
-        productId,
-        quantity,
-      });
+      await axiosInstance.patch("/cart", { productId, quantity });
       await fetchCart();
     } catch (error) {
-      console.log("Failed to add cart", error);
+      console.log("Failed to update cart:", error);
     }
   };
 
-  const deleteFromCart = async (productId: String) => {
+  const deleteFromCart = async (productId: string) => {
     try {
       await axiosInstance.delete("/cart", { data: { productId } });
       await fetchCart();
     } catch (error) {
-      console.log("Failed to add cart", error);
+      console.log("Failed to delete from cart:", error);
     }
   };
 
@@ -98,8 +97,6 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
 export const useCart = () => {
   const context = useContext(CartContext);
-  if (!context) {
-    throw new Error("useCart must be used inside CartProvider");
-  }
+  if (!context) throw new Error("useCart must be used inside CartProvider");
   return context;
 };

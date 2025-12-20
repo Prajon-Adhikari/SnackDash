@@ -52,11 +52,26 @@ export async function POST(req: NextRequest) {
       { expiresIn: "1d" }
     );
 
-    return NextResponse.json({
-      message: "Successfully sign up",
-      user: existingUser,
-      token,
+    const response = NextResponse.json({
+      message: "Login successful",
+      user: {
+        id: existingUser._id,
+        email: existingUser.email,
+        fullName: existingUser.fullName,
+      },
     });
+
+    response.cookies.set({
+      name: "token",
+      value: token,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 24,
+      path: "/",
+    });
+
+    return response;
   } catch (error) {
     console.log("Internal error while signup", error);
     return NextResponse.json(

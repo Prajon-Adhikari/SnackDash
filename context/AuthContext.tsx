@@ -18,7 +18,7 @@ interface User {
 
 interface AuthType {
   user: User | null;
-  setUser: (user: User) => void;
+  setUser: (user: User | null) => void;
   loading: boolean;
 }
 
@@ -30,15 +30,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("login_token");
-
-    if (!token) {
-      setLoading(false);
-      router.push("/auth/signin");
-      return;
-    }
-    console.log(token);
-
     axiosInstance
       .get("/auth/me")
       .then((res) => {

@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import Product from "@/model/Product";
-import { IProduct } from "@/model/Product";
-import { verifyToken } from "@/utils/verifyToken";
 import uploadToCloudinary from "@/lib/cloudinary";
 
 export async function POST(req: NextRequest) {
@@ -45,11 +43,6 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    const decoded = verifyToken(req);
-    if (!decoded) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 400 });
-    }
-
     const products = await Product.find();
 
     return NextResponse.json({ message: "Fetching products", products });
