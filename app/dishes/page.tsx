@@ -21,9 +21,6 @@ async function fetchDishes(): Promise<Dishes[]> {
 }
 
 export default async function DishPage() {
-  // const [selectedCategory, setSelectedCategory] = useState("All");
-  // const [search, setSearch] = useState("");
-
   const dishes = await fetchDishes();
 
   return (
