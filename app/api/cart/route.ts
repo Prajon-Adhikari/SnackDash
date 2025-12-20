@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import Cart, { ICart, ICartProduct } from "@/model/Cart";
+import "@/model/Product";
 import { verifyToken } from "@/utils/verifyToken";
 import mongoose from "mongoose";
+import connectDB from "@/lib/mongodb";
 
 export async function POST(req: NextRequest) {
   try {
+    await connectDB();
     const decoded = verifyToken(req);
 
     if (!decoded) {
@@ -65,6 +68,8 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
+    await connectDB();
+
     const decoded = verifyToken(req);
 
     if (!decoded) {

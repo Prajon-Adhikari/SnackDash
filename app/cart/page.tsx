@@ -105,7 +105,7 @@ export default function CartPage() {
                 </div>
               </div>
 
-              <Link href="/payment">
+              <Link href="/protected/payment">
                 <button className="mt-6 w-full cursor-pointer bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition">
                   Proceed to Checkout
                 </button>

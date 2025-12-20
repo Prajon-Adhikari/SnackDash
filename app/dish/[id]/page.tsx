@@ -1,10 +1,10 @@
-// app/dish/[id]/page.tsx
 import Image from "next/image";
 import { Dishes } from "@/interfaces/interface";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import AddToCartButton from "@/app/Components/AddToCartButton";
 
-// Fetch the dish server-side
+// Fetch the dish server-sidea
 async function fetchDish(id: string): Promise<Dishes | null> {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dish/${id}`, {
@@ -115,6 +115,7 @@ export default async function DishPage({
                 </div>
               </div>
             )}
+            <AddToCartButton productId={dish._id} />
           </div>
         </div>
       </div>

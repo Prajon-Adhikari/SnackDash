@@ -53,7 +53,7 @@ export default function CheckoutPage({ amount }: { amount: number }) {
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `https://snack-dash.vercel.app/payment-success?amount=${amount}`,
+        return_url: `${process.env.API_URL}/protected/payment-success?amount=${amount}`,
       },
     });
 
