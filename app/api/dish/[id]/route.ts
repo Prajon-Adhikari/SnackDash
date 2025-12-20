@@ -1,18 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import Product from "@/model/Product";
 import { verifyToken } from "@/utils/verifyToken";
+import connectDB from "@/lib/mongodb";
 
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const decoded = verifyToken(req);
-
-    if (!decoded) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 400 });
-    }
-
+    await connectDB();
     const { id } = await params;
 
     const product = await Product.findById(id);

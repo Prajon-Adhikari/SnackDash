@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,22 +8,25 @@ import axiosInstance from "@/lib/axiosInstance";
 
 const categories = ["All", "Veg", "Non-Veg", "Drinks"];
 
-export default function DishPage() {
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [search, setSearch] = useState("");
-  const [dishes, setDishes] = useState<Dishes[]>([]);
+async function fetchDishes(): Promise<Dishes[]> {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dish`, {
+      cache: "force-cache",
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.products || [];
+  } catch (error) {
+    console.log("Failed to fetched dishes", error);
+    return [];
+  }
+}
 
-  useEffect(() => {
-    const fetchDishes = async () => {
-      try {
-        const response = await axiosInstance.get("/dish");
-        setDishes(response.data.products);
-      } catch (error) {
-        console.log("Failed to fetched products", error);
-      }
-    };
-    fetchDishes();
-  }, []);
+export default async function DishPage() {
+  // const [selectedCategory, setSelectedCategory] = useState("All");
+  // const [search, setSearch] = useState("");
+
+  const dishes = await fetchDishes();
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 mt-12">
@@ -37,13 +38,13 @@ export default function DishPage() {
         <input
           type="text"
           placeholder="Search dishes..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          // value={search}
+          // onChange={(e) => setSearch(e.target.value)}
           className="w-full p-3 border rounded-xl mb-5 shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
         />
 
         {/* Category Filter */}
-        <div className="flex gap-3 mb-6 overflow-x-auto pb-2">
+        {/* <div className="flex gap-3 mb-6 overflow-x-auto pb-2">
           {categories.map((cat) => (
             <button
               key={cat}
@@ -56,7 +57,7 @@ export default function DishPage() {
               {cat}
             </button>
           ))}
-        </div>
+        </div> */}
 
         {/* Dish Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

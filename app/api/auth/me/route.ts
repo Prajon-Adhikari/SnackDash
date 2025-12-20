@@ -18,6 +18,8 @@ export async function GET(req: NextRequest) {
 
     const user = await User.findById(decoded.userId).select("-password");
 
+    console.log(user);
+
     return NextResponse.json({ user });
   } catch (err) {
     console.error(err);
