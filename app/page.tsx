@@ -6,7 +6,6 @@ import FoodCard from "./Components/FoodCard";
 import HeroSectionDesign from "./Components/HeroSectionDesign";
 import Bento from "./Components/Bento";
 import { Dishes } from "@/interfaces/interface";
-import axiosInstance from "@/lib/axiosInstance";
 
 // ✅ Add metadata at the top level
 export const metadata: Metadata = {

@@ -30,17 +30,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axiosInstance
-      .get("/auth/me")
-      .then((res) => {
-        setUser(res.data.user);
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log("Auth error:", err);
-        setUser(null);
-      })
-      .finally(() => setLoading(false));
+    const fetchUser = async () => {
+      axiosInstance
+        .get("/auth/me")
+        .then((res) => {
+          setUser(res.data.user);
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log("Auth error:", err);
+          setUser(null);
+        })
+        .finally(() => setLoading(false));
+    };
+    fetchUser();
   }, []);
 
   return (

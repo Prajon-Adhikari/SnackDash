@@ -12,7 +12,6 @@ async function fetchDish(id: string): Promise<Dishes | null> {
     });
     if (!res.ok) return null;
     const data = await res.json();
-    console.log(data);
     return data.product || null;
   } catch (err) {
     console.error("Failed to fetch product:", err);
