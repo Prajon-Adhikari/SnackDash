@@ -5,6 +5,7 @@ import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 interface LoginData {
   email: string;
@@ -28,12 +29,22 @@ export default function Signin() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await axios.post("/api/auth/signin", formData, {
+      const response = await axios.post("/api/auth/signin", formData, {
         withCredentials: true,
       });
+      toast.success(response.data.message);
       router.push("/");
       router.refresh();
-    } catch (error) {
+    } catch (error: any) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
       console.log("Failed to login", error);
     }
   };

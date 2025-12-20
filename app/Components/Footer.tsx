@@ -11,7 +11,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10">
         {/* Brand */}
         <div>
-          <h2 className="text-xl font-semibold text-white">FoodExpress</h2>
+          <h2 className="text-xl font-semibold text-white">SnackDash</h2>
           <p className="mt-3 text-sm">
             Delivering your favorite meals anytime, anywhere.
           </p>

@@ -5,6 +5,7 @@ import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,19 @@ export default function RootLayout({
             <Navbar />
             {children}
             <Footer />
+            <Toaster
+              position="top-right"
+              reverseOrder={false}
+              toastOptions={{
+                style: {
+                  background: "#ffffff",
+                  color: "#000000",
+                  fontSize: "16px",
+                  borderRadius: "8px",
+                  padding: "12px 24px",
+                },
+              }}
+            />
           </CartProvider>
         </AuthProvider>
       </body>

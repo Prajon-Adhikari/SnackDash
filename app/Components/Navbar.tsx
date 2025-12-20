@@ -90,7 +90,7 @@ export default function Navbar() {
             pathname === "/" && !scrolled ? "text-white" : "text-black"
           }`}
         >
-          MySite
+          SnackDash
         </Link>
 
         {/* Desktop Menu */}

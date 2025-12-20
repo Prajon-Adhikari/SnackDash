@@ -5,6 +5,7 @@ import axiosInstance from "@/lib/axiosInstance";
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "./AuthContext";
+import toast from "react-hot-toast";
 
 interface CartItem {
   product: Dishes;
@@ -55,7 +56,12 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   const addToCart = async (productId: string, quantity: number) => {
     try {
-      await axiosInstance.post("/cart", { productId, quantity });
+      const response = await axiosInstance.post("/cart", {
+        productId,
+        quantity,
+      });
+      toast.success(response.data.message);
+
       await fetchCart();
     } catch (error) {
       console.log("Failed to add cart:", error);

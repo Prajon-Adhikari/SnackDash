@@ -1,9 +1,11 @@
 "use client";
 
 import { User } from "@/interfaces/interface";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FaEnvelope, FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function SignUp() {
   const [formData, setFormData] = useState<User>({
@@ -13,6 +15,8 @@ export default function SignUp() {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -28,11 +32,12 @@ export default function SignUp() {
 
     try {
       const response = await axios.post("/api/auth/signup", formData);
-
-      console.log(response);
       setFormData({ fullName: "", email: "", password: "" });
+      toast.success(response.data.message);
+      router.push("/auth/signin");
     } catch (error) {
       console.log("Failed to signup", error);
+      toast.error("Failed to signup");
     }
   };
   return (
