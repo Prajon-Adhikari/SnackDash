@@ -50,17 +50,23 @@ export default function Payment() {
         <div className="bg-white rounded-2xl shadow-lg p-6">
           <h2 className="text-2xl font-semibold mb-6">Secure Payment</h2>
 
-          <Elements
-            stripe={stripePromise}
-            options={{
-              mode: "payment",
-              amount: convertToSubCurrency(amount),
-              currency: "usd",
-              paymentMethodCreation: "manual",
-            }}
-          >
-            <CheckoutPage amount={amount} />
-          </Elements>
+          {amount > 0 ? (
+            <Elements
+              stripe={stripePromise}
+              options={{
+                mode: "payment",
+                amount: convertToSubCurrency(amount),
+                currency: "usd",
+                paymentMethodCreation: "manual",
+              }}
+            >
+              <CheckoutPage amount={amount} />
+            </Elements>
+          ) : (
+            <p className="text-gray-500 text-center">
+              Your cart is empty. Add items to pay.
+            </p>
+          )}
 
           <p className="text-sm text-gray-500 mt-4 text-center">
             Payments are secured and encrypted by Stripe

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Product from "@/model/Product";
 import uploadToCloudinary from "@/lib/cloudinary";
+import connectDB from "@/lib/mongodb";
 
 export async function POST(req: NextRequest) {
   try {
@@ -43,6 +44,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
+    await connectDB();
     const products = await Product.find();
 
     return NextResponse.json({ message: "Fetching products", products });

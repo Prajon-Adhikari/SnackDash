@@ -5,7 +5,6 @@ import {
   useElements,
   PaymentElement,
 } from "@stripe/react-stripe-js";
-import convertToSubCurrency from "@/lib/convertToSubCurrency";
 import axiosInstance from "@/lib/axiosInstance";
 
 export default function CheckoutPage({ amount }: { amount: number }) {
@@ -53,7 +52,7 @@ export default function CheckoutPage({ amount }: { amount: number }) {
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `${process.env.API_URL}/protected/payment-success?amount=${amount}`,
+        return_url: `${process.env.NEXT_PUBLIC_API_URL2}/protected/payment-success?amount=${amount}`,
       },
     });
 

@@ -8,7 +8,6 @@ import {
   ReactNode,
 } from "react";
 import axiosInstance from "@/lib/axiosInstance";
-import { useRouter } from "next/navigation";
 
 interface User {
   _id: string;
@@ -25,7 +24,6 @@ interface AuthType {
 const AuthContext = createContext<AuthType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
