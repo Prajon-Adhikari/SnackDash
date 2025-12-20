@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Dishes } from "@/interfaces/interface";
-import axiosInstance from "@/lib/axiosInstance";
 
 // Dummy Dish Data
 
