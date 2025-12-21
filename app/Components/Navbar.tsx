@@ -82,7 +82,7 @@ export default function Navbar() {
 
   return (
     <nav className={navClasses}>
-      <div className="mx-18 px-4 py-3 flex items-center justify-between">
+      <div className="mx-4 md:mx-18 px-4 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link
           href="/"

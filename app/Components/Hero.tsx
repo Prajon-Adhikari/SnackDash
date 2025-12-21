@@ -11,18 +11,18 @@ export default function Hero() {
         backgroundPosition: "center",
       }}
     >
-      <div className="w-120 text-center mt-10 ">
+      <div className="w-80 md:w-120 text-center mt-10 ">
         <p className="pt-4 font-semibold text-amber-800">We Offer You</p>
-        <h2 className="font-bold text-6xl text-amber-900">
+        <h2 className="font-bold text-4xl md:text-6xl text-amber-900">
           Freshly Baked, Just For You
         </h2>
-        <p className="pt-4 font-semibold text-amber-800">
+        <p className="pt-4 text-sm md:text-md font-semibold text-amber-800">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid
           maiores id dignissimos eum voluptate alias nulla, doloremque in quos
           est.
         </p>
         <Link href={"/dishes"}>
-          <button className="uppercase cursor-pointer bg-yellow-500 text-white px-4 py-1.5 rounded-2xl mt-4">
+          <button className="uppercase cursor-pointer text-sm md:text-md bg-yellow-500 text-white px-4 py-1.5 rounded-2xl mt-4">
             Order Now
           </button>
         </Link>

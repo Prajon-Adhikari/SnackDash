@@ -11,7 +11,7 @@ export default function DishesCard({ dish }: Props) {
   return (
     <div className="max-w-sm bg-white rounded-2xl cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
       {/* Image */}
-      <div className="relative w-full h-62.5 overflow-hidden">
+      <div className="relative w-full h-50 md:h-62.5 overflow-hidden">
         <Image
           src={dish.image}
           alt={dish.name}

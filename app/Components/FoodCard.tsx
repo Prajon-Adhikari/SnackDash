@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function FoodCard() {
   return (
-    <div className="mx-24 grid grid-cols-4 gap-5 mt-20">
+    <div className="mx-4 lg:mx-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-20">
       <Link href={"dishes"}>
         <div
           className={`h-46 relative rounded-2xl text-white p-4`}

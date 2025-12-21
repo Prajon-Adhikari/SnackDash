@@ -57,7 +57,7 @@ export default async function Home() {
     <main>
       <Hero />
       <FoodCard />
-      <section className="my-20 mx-30">
+      <section className=" my-10 lg:my-20 mx-4 lg:mx-30">
         <header className="mb-10">
           <h1 className="text-5xl font-bold text-gray-900">
             Best Selling Dishes
@@ -66,7 +66,7 @@ export default async function Home() {
             Our most loved items by customers, carefully picked just for you!
           </p>
         </header>
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {dishes.slice(0, 8).map((dish) => (
             <DishesCard key={dish._id} dish={dish} />
           ))}
