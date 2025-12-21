@@ -4,14 +4,14 @@ import Link from "next/link";
 export default function Hero() {
   return (
     <div
-      className="relative overflow-hidden py-29.5 h-screen flex justify-center "
+      className="relative overflow-hidden py-29.5 h-[65vh] md:h-screen flex justify-center "
       style={{
         backgroundImage: `url("/heroImage.png")`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div className="w-80 md:w-120 text-center mt-10 ">
+      <div className="w-80 md:w-120 text-center mt-0 md:mt-10 ">
         <p className="pt-4 font-semibold text-amber-800">We Offer You</p>
         <h2 className="font-bold text-4xl md:text-6xl text-amber-900">
           Freshly Baked, Just For You
