@@ -9,43 +9,85 @@ interface Product {
   name: string;
   price: string;
   description: string;
-  image: string;
+  variation: string;
+  rating: string;
+  image?: string; // URL from backend
 }
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [form, setForm] = useState<Product>({
-    name: "",
-    price: "",
-    description: "",
-    image: "",
-  });
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
 
+  const [form, setForm] = useState({
+    name: "",
+    price: "",
+    description: "",
+    variation: "",
+    rating: "",
+  });
+
+  const [imageFile, setImageFile] = useState<File | null>(null);
+
+  // 🔹 Fetch products
   async function fetchProducts() {
     const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/dish`);
     setProducts(res.data.products);
-    console.log(res.data.products);
   }
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
+  // 🔹 Submit form (Add / Edit)
   async function handleSubmit() {
+    const formData = new FormData();
+    formData.append("name", form.name);
+    formData.append("price", form.price);
+    formData.append("description", form.description);
+    formData.append("variation", form.variation);
+    formData.append("rating", form.rating);
+
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+
     if (editingId) {
       await axios.patch(
         `${process.env.NEXT_PUBLIC_API_URL}/dish/${editingId}`,
-        form
+        formData
       );
     } else {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/dish`, form);
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/dish`, formData);
     }
-    setForm({ name: "", price: "", description: "", image: "" });
+
+    resetForm();
+    fetchProducts();
+  }
+
+  function resetForm() {
+    setForm({
+      name: "",
+      price: "",
+      description: "",
+      variation: "",
+      rating: "",
+    });
+    setImageFile(null);
     setEditingId(null);
     setShowModal(false);
-    fetchProducts();
+  }
+
+  function handleEdit(product: Product) {
+    setForm({
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      variation: product.variation,
+      rating: product.rating,
+    });
+    setEditingId(product._id!);
+    setShowModal(true);
   }
 
   async function handleDelete(id: string) {
@@ -55,14 +97,8 @@ export default function AdminProductsPage() {
     }
   }
 
-  function handleEdit(product: Product) {
-    setForm(product);
-    setEditingId(product._id!);
-    setShowModal(true);
-  }
-
   return (
-    <div className="p-6">
+    <div className="p-6 mx-16 mt-16">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Products</h1>
         <button
@@ -81,6 +117,8 @@ export default function AdminProductsPage() {
               <th className="p-3">Image</th>
               <th className="p-3">Name</th>
               <th className="p-3">Description</th>
+              <th className="p-3">Variation</th>
+              <th className="p-3">Rating</th>
               <th className="p-3">Price</th>
               <th className="p-3">Actions</th>
             </tr>
@@ -90,7 +128,7 @@ export default function AdminProductsPage() {
               <tr key={p._id} className="border-t">
                 <td className="p-3">
                   <Image
-                    src={p.image}
+                    src={p.image!}
                     alt={p.name}
                     width={50}
                     height={50}
@@ -99,6 +137,8 @@ export default function AdminProductsPage() {
                 </td>
                 <td className="p-3">{p.name}</td>
                 <td className="p-3">{p.description}</td>
+                <td className="p-3">{p.variation}</td>
+                <td className="p-3">{p.rating}</td>
                 <td className="p-3">₹{p.price}</td>
                 <td className="p-3 space-x-2">
                   <button
@@ -122,48 +162,35 @@ export default function AdminProductsPage() {
 
       {/* MODAL */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center">
           <div className="bg-white w-full max-w-md p-6 rounded-xl">
             <h2 className="text-xl font-semibold mb-4">
               {editingId ? "Edit Product" : "Add Product"}
             </h2>
 
-            <input
-              placeholder="Product Name"
-              className="w-full border p-2 rounded mb-3"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-            />
+            {["name", "description", "variation", "price", "rating"].map(
+              (field) => (
+                <input
+                  key={field}
+                  placeholder={field.toUpperCase()}
+                  className="w-full border p-2 rounded mb-3"
+                  value={(form as any)[field]}
+                  onChange={(e) =>
+                    setForm({ ...form, [field]: e.target.value })
+                  }
+                />
+              )
+            )}
 
             <input
-              placeholder="Category"
-              className="w-full border p-2 rounded mb-3"
-              value={form.description}
-              onChange={(e) =>
-                setForm({ ...form, description: e.target.value })
-              }
-            />
-
-            <input
-              placeholder="Price"
-              type="number"
-              className="w-full border p-2 rounded mb-3"
-              value={form.price}
-              onChange={(e) => setForm({ ...form, price: e.target.value })}
-            />
-
-            <input
-              placeholder="Image URL"
+              type="file"
+              accept="image/*"
               className="w-full border p-2 rounded mb-4"
-              value={form.image}
-              onChange={(e) => setForm({ ...form, image: e.target.value })}
+              onChange={(e) => setImageFile(e.target.files?.[0] || null)}
             />
 
             <div className="flex justify-end gap-2">
-              <button
-                onClick={() => setShowModal(false)}
-                className="px-4 py-2 border rounded"
-              >
+              <button onClick={resetForm} className="px-4 py-2 border rounded">
                 Cancel
               </button>
               <button

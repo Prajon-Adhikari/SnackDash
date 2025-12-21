@@ -5,6 +5,7 @@ import connectDB from "@/lib/mongodb";
 
 export async function POST(req: NextRequest) {
   try {
+    await connectDB();
     const formData = await req.formData();
 
     const name = formData.get("name") as string;

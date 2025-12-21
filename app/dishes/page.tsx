@@ -9,7 +9,7 @@ const categories = ["All", "Veg", "Non-Veg", "Drinks"];
 async function fetchDishes(): Promise<Dishes[]> {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dish`, {
-      cache: "force-cache",
+      cache: "no-cache",
     });
     if (!res.ok) return [];
     const data = await res.json();
