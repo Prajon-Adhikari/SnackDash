@@ -4,8 +4,10 @@ import "./globals.css";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
+import { AuthModalProvider } from "@/context/AuthModalContext";
 import { CartProvider } from "@/context/CartContext";
 import { Toaster } from "react-hot-toast";
+import AuthModal from "./Components/AuthModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,24 +35,27 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
-          <CartProvider>
-            <Navbar />
-            {children}
-            <Footer />
-            <Toaster
-              position="top-right"
-              reverseOrder={false}
-              toastOptions={{
-                style: {
-                  background: "#ffffff",
-                  color: "#000000",
-                  fontSize: "16px",
-                  borderRadius: "8px",
-                  padding: "12px 24px",
-                },
-              }}
-            />
-          </CartProvider>
+          <AuthModalProvider>
+            <CartProvider>
+              <Navbar />
+              {children}
+              <Footer />
+              <AuthModal />
+              <Toaster
+                position="top-right"
+                reverseOrder={false}
+                toastOptions={{
+                  style: {
+                    background: "#ffffff",
+                    color: "#000000",
+                    fontSize: "16px",
+                    borderRadius: "8px",
+                    padding: "12px 24px",
+                  },
+                }}
+              />
+            </CartProvider>
+          </AuthModalProvider>
         </AuthProvider>
       </body>
     </html>

@@ -6,6 +6,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "./AuthContext";
 import toast from "react-hot-toast";
+import { useAuthModal } from "./AuthModalContext";
 
 interface CartItem {
   product: Dishes;
@@ -24,6 +25,7 @@ const CartContext = createContext<CartContextType | null>(null);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const { user, loading: authLoading } = useAuth();
+  const { open } = useAuthModal();
   const [items, setItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -55,6 +57,13 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   }, [authLoading, user]);
 
   const addToCart = async (productId: string, quantity: number) => {
+    console.log(user);
+    if (user === null) {
+      console.log("I am herre");
+      open();
+      return;
+    }
+
     try {
       const response = await axiosInstance.post("/cart", {
         productId,

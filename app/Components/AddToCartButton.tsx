@@ -10,7 +10,6 @@ export default function AddToCartButton({ productId }: Props) {
   const { addToCart } = useCart();
 
   const handleAddToCart = async () => {
-    console.log("Added");
     await addToCart(productId, 1);
   };
 
