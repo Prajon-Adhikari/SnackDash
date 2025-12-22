@@ -121,6 +121,7 @@ export default function Signin() {
                 </button>
               </div>
             </div>
+            <Link href={"/auth/forget-password"}>Forget Password</Link>
 
             {/* Submit */}
             <button

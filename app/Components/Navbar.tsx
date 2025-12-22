@@ -66,7 +66,16 @@ export default function Navbar() {
       : "fixed top-0 left-0 w-full z-50 bg-white shadow-md";
 
   // Hide Navbar on auth pages
-  if (["/auth/signin", "/auth/signup"].includes(pathname)) return null;
+  if (
+    [
+      "/auth/signin",
+      "/auth/signup",
+      "/auth/forget-password",
+      "/auth/otp-verify",
+      "/auth/reset-password",
+    ].includes(pathname)
+  )
+    return null;
 
   // Logout (only if AuthProvider exists)
   const logout = async () => {
