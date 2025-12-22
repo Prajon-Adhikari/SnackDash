@@ -4,7 +4,13 @@ import { usePathname } from "next/navigation";
 export default function Footer() {
   const pathname = usePathname();
 
-  const hideFooter = ["/auth/signup", "/auth/signin"].includes(pathname);
+  const hideFooter = [
+    "/auth/signup",
+    "/auth/signin",
+    "/auth/forget-password",
+    "/auth/otp-verify",
+    "/auth/reset-password",
+  ].includes(pathname);
   if (hideFooter) return null;
   return (
     <footer className="bg-gray-900 text-gray-300 py-10 mt-10">

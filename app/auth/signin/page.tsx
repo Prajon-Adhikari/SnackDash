@@ -100,7 +100,7 @@ export default function Signin() {
             </div>
 
             {/* Password */}
-            <div>
+            <div className="mb-2">
               <label className="text-sm text-gray-600">Password</label>
               <div className="relative mt-2">
                 <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -121,7 +121,12 @@ export default function Signin() {
                 </button>
               </div>
             </div>
-            <Link href={"/auth/forget-password"}>Forget Password</Link>
+            <Link
+              href={"/auth/forget-password"}
+              className="flex justify-end mr-1 hover:text-gray-500 mb-4"
+            >
+              Forget Password ?
+            </Link>
 
             {/* Submit */}
             <button
