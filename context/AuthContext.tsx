@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchUser = async () => {
       axiosInstance
-        .get("/auth/me")
+        .post("/auth/me")
         .then((res) => {
           setUser(res.data.user);
           console.log(res.data);

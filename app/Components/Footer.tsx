@@ -37,7 +37,7 @@ export default function Footer() {
                 Restaurants
               </a>
             </li>
-            <li>
+            <li> 
               <a href="#" className="hover:text-white">
                 Offers
               </a>

@@ -1,4 +1,5 @@
 "use client";
+
 import axios from "axios";
 import { useState } from "react";
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
@@ -6,6 +7,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import toast from "react-hot-toast";
+import { useAuth } from "@/context/AuthContext";
 
 interface LoginData {
   email: string;
@@ -18,6 +20,8 @@ export default function Signin() {
     email: "",
     password: "",
   });
+
+  const { setUser } = useAuth();
 
   const router = useRouter();
 
@@ -33,6 +37,7 @@ export default function Signin() {
         withCredentials: true,
       });
       toast.success(response.data.message);
+      setUser(response.data.user);
       router.push("/");
       router.refresh();
     } catch (error: any) {

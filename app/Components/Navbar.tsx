@@ -20,21 +20,8 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
 
-  // Optional Auth & Cart context
-  let authContext = null;
-  let cartContext = null;
-
-  try {
-    authContext = useAuth();
-  } catch {}
-
-  try {
-    cartContext = useCart();
-  } catch {}
-
-  const user = authContext?.user ?? null;
-  const setUser = authContext?.setUser;
-  const itemLength = cartContext?.itemLength ?? 0;
+  const { user, setUser } = useAuth();
+  const { itemLength } = useCart();
 
   const links = [
     { name: "Home", href: "/" },
@@ -114,8 +101,8 @@ export default function Navbar() {
                     ? "bg-white/20 text-black"
                     : "bg-black text-white"
                   : pathname === "/" && !scrolled
-                  ? "text-white hover:bg-white/20"
-                  : "text-gray-700 hover:bg-gray-100"
+                    ? "text-white hover:bg-white/20"
+                    : "text-gray-700 hover:bg-gray-100"
               }`}
             >
               {link.name}
@@ -143,7 +130,10 @@ export default function Navbar() {
                 onClick={() => setShowProfileDropdown(!showProfileDropdown)}
               />
               {showProfileDropdown && (
-                <div className="absolute w-30 border bg-white -left-10 top-7 shadow-xl">
+                <div
+                  onClick={() => setShowProfileDropdown(false)}
+                  className="absolute w-30 border bg-white -left-10 top-7 shadow-xl"
+                >
                   <p className="border-b py-1.5 text-center hover:bg-gray-200 cursor-pointer">
                     Profile
                   </p>
@@ -197,8 +187,8 @@ export default function Navbar() {
                     ? "bg-white/30 text-white"
                     : "bg-black text-white"
                   : pathname === "/" && !scrolled
-                  ? "text-white hover:bg-white/20"
-                  : "text-gray-700 hover:bg-gray-100"
+                    ? "text-white hover:bg-white/20"
+                    : "text-gray-700 hover:bg-gray-100"
               }`}
             >
               {link.name}

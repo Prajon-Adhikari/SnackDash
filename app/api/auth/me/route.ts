@@ -3,7 +3,7 @@ import dbConnect from "@/lib/mongodb";
 import User from "@/model/User";
 import { verifyToken } from "@/utils/verifyToken";
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     await dbConnect();
 
@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
     if (!decoded) {
       return NextResponse.json(
         { user: null, message: "Unauthorized" },
-        { status: 200 }
+        { status: 200 },
       );
     }
 

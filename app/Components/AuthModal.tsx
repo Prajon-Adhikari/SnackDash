@@ -40,7 +40,7 @@ export default function AuthModal() {
           className="w-full border border-gray-300 rounded-lg p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-black"
         />
 
-        <Link href="/auth/signin">
+        <Link href="/auth/signin" onClick={close}>
           <button className="w-full bg-black text-white rounded-lg py-3 mb-3 font-medium hover:bg-gray-900 transition">
             Sign In To Your Account
           </button>

@@ -7,7 +7,7 @@ import { IProduct } from "@/model/Product";
 import { Types } from "mongoose";
 
 function isPopulatedProduct(
-  product: Types.ObjectId | IProduct
+  product: Types.ObjectId | IProduct,
 ): product is IProduct {
   return typeof product === "object" && "price" in product;
 }
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     event = stripe.webhooks.constructEvent(
       body,
       sig,
-      process.env.NEXT_WEBHOOK_STRIPE_SECRET_KEY!
+      process.env.NEXT_WEBHOOK_STRIPE_SECRET_KEY!,
     );
   } catch (err) {
     return NextResponse.json({ error: "Webhook error" }, { status: 400 });
@@ -85,13 +85,13 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json(
         { message: "Order Created Successfully", newOrder },
-        { status: 200 }
+        { status: 200 },
       );
     } catch (error) {
       console.log("Internal error while creating order", error);
       return NextResponse.json(
         { message: "Internal error while creating order" },
-        { status: 500 }
+        { status: 500 },
       );
     }
   }
