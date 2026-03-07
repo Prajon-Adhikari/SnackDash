@@ -21,7 +21,7 @@ export default function CheckoutPage({ amount }: { amount: number }) {
           `${process.env.NEXT_PUBLIC_API_URL}/create-payment-intent`,
           {
             amount,
-          }
+          },
         );
         console.log({ response });
         setClientSecret(response.data.clientSecret);
