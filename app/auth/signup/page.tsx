@@ -6,6 +6,8 @@ import { FaEnvelope, FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function SignUp() {
   const [formData, setFormData] = useState<User>({
@@ -15,21 +17,15 @@ export default function SignUp() {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
       const response = await axios.post("/api/auth/signup", formData);
       setFormData({ fullName: "", email: "", password: "" });
@@ -40,90 +36,116 @@ export default function SignUp() {
       toast.error("Failed to signup");
     }
   };
+
   return (
-    <div className="min-h-screen bg-linear-to-r from-indigo-100 via-purple-100 to-pink-100 flex items-center justify-center p-6">
-      <div className="bg-white rounded-3xl shadow-xl max-w-md w-full p-8">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
-          Create Account
-        </h2>
-
-        <form className="space-y-5" onSubmit={handleSubmit}>
-          {/* Name */}
-          <div>
-            <label className="text-sm text-gray-600">FullName</label>
-            <div className="relative mt-2">
-              <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                name="fullName"
-                value={formData.fullName}
-                onChange={handleChange}
-                placeholder="you@example.com"
-                className="w-full pl-11 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
-              />
+    <div className="min-h-screen flex items-center justify-center bg-[#fcfcfc] px-4 py-12">
+      <div className="w-full max-w-5xl bg-white rounded-xl shadow-2xl shadow-black/5 overflow-hidden grid md:grid-cols-2 border border-gray-100">
+        
+        {/* Left Side - Visual */}
+        <div className="relative hidden md:block">
+          <Image
+            src="/aboutheroImage3.jpg"
+            alt="Delicious food"
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-12">
+            <div>
+              <h2 className="text-4xl font-black text-white mb-4 tracking-tight">
+                Join our <br />Food Community.
+              </h2>
+              <p className="text-gray-300 text-sm font-medium leading-relaxed max-w-xs">
+                Create an account today and get exclusive access to new recipes, special discounts, and faster delivery.
+              </p>
             </div>
           </div>
+        </div>
 
-          {/* Email */}
-          <div>
-            <label className="text-sm text-gray-600">Email</label>
-            <div className="relative mt-2">
-              <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="you@example.com"
-                className="w-full pl-11 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
-              />
+        {/* Right Side - Form */}
+        <div className="p-8 sm:p-16 flex flex-col justify-center">
+          {/* Logo & Brand */}
+          <div className="mb-10 text-center md:text-left">
+            <div className="inline-flex items-center gap-2 mb-8">
+              <div className="w-10 h-10 rounded-lg bg-red-500 flex items-center justify-center text-white text-xl font-black">S</div>
+              <span className="text-2xl font-black text-gray-900 tracking-tighter">Snack<span className="text-red-500">Dash</span></span>
             </div>
+            <h1 className="text-3xl font-black text-gray-900 tracking-tight mb-2">Create Account</h1>
+            <p className="text-gray-400 text-sm font-bold uppercase tracking-widest leading-none">Start your flavor journey</p>
           </div>
 
-          {/* Password */}
-          <div>
-            <label htmlFor="password" className="text-gray-600 font-medium">
-              Password
-            </label>
-            <div className="relative mt-2">
-              <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="••••••••"
-                className="w-full pl-11 pr-12 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </button>
+          <form className="space-y-5" onSubmit={handleSubmit}>
+            <div>
+              <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Full Name</label>
+              <div className="relative mt-2 group">
+                <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-red-500 transition-colors" />
+                <input
+                  type="text"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  placeholder="John Doe"
+                  className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all font-medium text-sm"
+                  required
+                />
+              </div>
             </div>
-          </div>
 
-          {/* Signup Button */}
-          <button
-            type="submit"
-            className="w-full bg-indigo-500 text-white font-semibold p-3 rounded-xl hover:bg-indigo-600 transition-colors duration-300"
-          >
-            Sign Up
-          </button>
-        </form>
+            <div>
+              <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Email Address</label>
+              <div className="relative mt-2 group">
+                <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-red-500 transition-colors" />
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="name@example.com"
+                  className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all font-medium text-sm"
+                  required
+                />
+              </div>
+            </div>
 
-        <p className="text-center text-gray-500 mt-5">
-          Already have an account?{" "}
-          <a
-            href="/auth/signin"
-            className="text-indigo-500 font-medium hover:underline"
-          >
-            Log in
-          </a>
-        </p>
+            <div>
+              <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Password</label>
+              <div className="relative mt-2 group">
+                <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-red-500 transition-colors" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="••••••••"
+                  className="w-full pl-12 pr-12 py-4 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all font-medium text-sm"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500 transition-colors"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-4 rounded-xl bg-gray-900 text-white font-black uppercase tracking-widest text-xs hover:bg-red-500 transition-all shadow-xl shadow-black/10 active:scale-95 mt-4"
+            >
+              Sign Up
+            </button>
+          </form>
+
+          <p className="text-center text-xs font-bold text-gray-400 mt-10">
+            Already have an account?{" "}
+            <Link href="/auth/signin" className="text-red-500 hover:underline">
+              Log in instead
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
 }
+

@@ -3,6 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { MdOutlineArrowBack } from "react-icons/md";
+import Link from "next/link";
+import toast from "react-hot-toast";
 
 export default function OtpVerify() {
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
@@ -44,16 +47,16 @@ export default function OtpVerify() {
 
     const newOtp = paste.split("");
     setOtp([...newOtp, ...Array(6 - newOtp.length).fill("")]);
-    newOtp.forEach((_, i) => {
+    newOtp.forEach((val, i) => {
       if (inputsRef.current[i]) {
-        inputsRef.current[i]!.value = newOtp[i];
+        inputsRef.current[i]!.value = val;
       }
     });
   };
 
   const handleSubmit = async () => {
     const otpValue = otp.join("");
-    if (otpValue.length !== 6) return alert("Enter complete OTP");
+    if (otpValue.length !== 6) return toast.error("Enter complete OTP");
 
     try {
       setLoading(true);
@@ -67,21 +70,26 @@ export default function OtpVerify() {
         router.push("/auth/reset-password");
       }
     } catch (error) {
-      alert("Invalid or expired OTP");
+      toast.error("Invalid or expired OTP");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md text-center">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Verify OTP</h2>
-        <p className="text-gray-500 mb-6">
+    <div className="min-h-screen flex items-center justify-center bg-[#fcfcfc] px-4">
+      <div className="bg-white p-10 rounded-xl shadow-2xl shadow-black/5 w-full max-w-md text-center border border-gray-100">
+        <div className="inline-flex items-center gap-2 mb-8">
+          <div className="w-10 h-10 rounded-lg bg-red-500 flex items-center justify-center text-white text-xl font-black">S</div>
+          <span className="text-2xl font-black text-gray-900 tracking-tighter">Snack<span className="text-red-500">Dash</span></span>
+        </div>
+        
+        <h2 className="text-2xl font-black text-gray-900 tracking-tight mb-2">Verify OTP</h2>
+        <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest leading-none mb-10">
           Enter the 6-digit code sent to your email
         </p>
 
-        <div className="flex justify-center gap-3 mb-6">
+        <div className="flex justify-center gap-2.5 mb-10">
           {otp.map((_, index) => (
             <input
               key={index}
@@ -91,10 +99,11 @@ export default function OtpVerify() {
               type="text"
               inputMode="numeric"
               maxLength={1}
+              value={otp[index]}
               onChange={(e) => handleChange(e.target.value, index)}
               onKeyDown={(e) => handleKeyDown(e, index)}
               onPaste={handlePaste}
-              className="w-12 h-12 text-center text-xl font-semibold border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-12 h-14 text-center text-xl font-black bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all text-gray-900"
             />
           ))}
         </div>
@@ -102,11 +111,19 @@ export default function OtpVerify() {
         <button
           onClick={handleSubmit}
           disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+          className="w-full bg-gray-900 text-white py-4 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-red-500 transition-all shadow-xl shadow-black/10 active:scale-95 disabled:opacity-50 mb-8"
         >
           {loading ? "Verifying..." : "Verify OTP"}
         </button>
+
+        <div className="text-center">
+            <Link href="/auth/signin" className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-gray-400 hover:text-red-500 transition-colors">
+              <MdOutlineArrowBack size={16} />
+              Back to Sign In
+            </Link>
+        </div>
       </div>
     </div>
   );
 }
+
