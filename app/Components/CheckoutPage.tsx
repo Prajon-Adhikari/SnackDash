@@ -6,6 +6,8 @@ import {
   PaymentElement,
 } from "@stripe/react-stripe-js";
 import axiosInstance from "@/lib/axiosInstance";
+import { MdOutlineSecurity, MdOutlinePayment } from "react-icons/md";
+import { BiLoaderAlt } from "react-icons/bi";
 
 export default function CheckoutPage({ amount }: { amount: number }) {
   const stripe = useStripe();
@@ -23,10 +25,10 @@ export default function CheckoutPage({ amount }: { amount: number }) {
             amount,
           },
         );
-        console.log({ response });
         setClientSecret(response.data.clientSecret);
       } catch (error) {
         console.log("Error while fetching payment intent", error);
+        setErrorMessage("Could not initialize payment. Please try again later.");
       }
     };
     fetchPaymentIntent();
@@ -58,20 +60,63 @@ export default function CheckoutPage({ amount }: { amount: number }) {
 
     if (error) {
       setErrorMessage(error.message);
-    } else {
     }
     setLoading(false);
   };
+
   return (
-    <form action="" onSubmit={handleSubmit}>
-      {clientSecret && <PaymentElement />}
-      {errorMessage && <div>{errorMessage}</div>}
-      <button
-        disabled={!stripe || loading}
-        className="text-white bg-black my-2 mx-6 px-8 py-1.5 text-lg  rounded-md"
-      >
-        {loading ? "Processing" : `Pay ${amount}`}
-      </button>
+    <form onSubmit={handleSubmit} className="max-w-md mx-auto p-8 rounded-3xl bg-white border border-gray-100 shadow-2xl">
+      <div className="mb-8 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center text-red-500">
+                <MdOutlinePayment size={24} />
+            </div>
+            <h2 className="text-xl font-black text-gray-900">Secure Payment</h2>
+        </div>
+        <div className="text-right">
+            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Amount</p>
+            <p className="text-xl font-black text-gray-900">Rs. {amount}</p>
+        </div>
+      </div>
+
+      <div className="space-y-6">
+        {clientSecret ? (
+          <div className="p-4 rounded-2xl bg-gray-50 border border-gray-100">
+            <PaymentElement options={{ layout: "tabs" }} />
+          </div>
+        ) : (
+          <div className="h-40 flex items-center justify-center text-gray-400 gap-2">
+            <BiLoaderAlt className="animate-spin" size={20} />
+            <span className="text-sm font-medium">Initializing payment...</span>
+          </div>
+        )}
+
+        {errorMessage && (
+          <div className="p-4 rounded-xl bg-red-50 border border-red-100 text-red-600 text-sm font-medium animate-shake">
+            {errorMessage}
+          </div>
+        )}
+
+        <button
+          disabled={!stripe || loading || !clientSecret}
+          className="w-full relative overflow-hidden group py-4 bg-gray-900 disabled:bg-gray-300 text-white font-bold rounded-2xl shadow-xl transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-3"
+        >
+          {loading ? (
+            <BiLoaderAlt className="animate-spin" size={20} />
+          ) : (
+            <>
+              <MdOutlineSecurity size={20} />
+              <span>Pay Rs. {amount}</span>
+            </>
+          )}
+          <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+        </button>
+        
+        <p className="text-center text-[10px] text-gray-400 font-medium">
+          Your payment is processed securely by Stripe.
+        </p>
+      </div>
     </form>
   );
 }
+
