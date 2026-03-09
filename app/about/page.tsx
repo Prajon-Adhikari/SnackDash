@@ -30,7 +30,7 @@ export const metadata = {
 
 export default function AboutUs() {
   return (
-    <section className="w-full bg-white text-gray-800 mt-14">
+    <section className="w-full bg-white text-gray-800 my-14">
       {/* Hero Section */}
       <div className="relative h-[70vh] w-full">
         <Image

@@ -65,10 +65,10 @@ export default function Navbar() {
       className={`fixed top-0 left-0 w-full z-[100] transition-all duration-300 ${
         scrolled
           ? "py-3 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100"
-          : "py-5 bg-white/50 backdrop-blur-sm shadow-none"
+          : "py-3 bg-white/50 backdrop-blur-sm shadow-none"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
+      <div className="max-w-8xl mx-auto px-6 md:px-12 flex items-center justify-between">
         {/* Logo */}
         <Link
           href="/"
