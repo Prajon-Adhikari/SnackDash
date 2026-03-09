@@ -5,6 +5,10 @@ import DishesCard from "./Components/DishesCard";
 import FoodCard from "./Components/FoodCard";
 import HeroSectionDesign from "./Components/HeroSectionDesign";
 import Bento from "./Components/Bento";
+import HowItWorks from "./Components/HowItWorks";
+import Reviews from "./Components/Reviews";
+import AppPromo from "./Components/AppPromo";
+import TrustService from "./Components/TrustService";
 import { Dishes } from "@/interfaces/interface";
 
 // ✅ Add metadata at the top level
@@ -74,6 +78,10 @@ export default async function Home() {
       </section>
       <HeroSectionDesign />
       <Bento />
+      <HowItWorks />
+      <Reviews />
+      <AppPromo />
+      <TrustService />
     </main>
   );
 }
