@@ -3,11 +3,11 @@ import Image from "next/image";
 
 export default function Bento() {
   return (
-    <section className="max-w-7xl mx-auto px-6 md:px-12 py-24">
-      <div className="flex flex-col md:flex-row gap-6 h-[600px]">
+    <section className="max-w-8xl mx-auto px-6 md:px-12 pb-24 p-12">
+      <div className="flex flex-col md:flex-row gap-4 h-[600px]">
         {/* Left Column - Stacked */}
-        <div className="flex flex-col gap-6 md:w-1/3 h-full">
-          <div className="relative flex-1 overflow-hidden rounded-[2rem] group">
+        <div className="flex flex-col gap-4 md:w-1/4 h-full">
+          <div className="relative flex-1 overflow-hidden rounded-[1rem] group">
             <Image
               src="/bentoImg1.jpg"
               alt="Delicious food gallery"
@@ -18,7 +18,7 @@ export default function Bento() {
                 <p className="text-white font-bold">Gourmet Selection</p>
             </div>
           </div>
-          <div className="relative flex-1 overflow-hidden rounded-[2rem] group">
+          <div className="relative flex-1 overflow-hidden rounded-[1rem] group">
             <Image
               src="/bentoImg3.jpg"
               alt="Fresh ingredients"
@@ -32,7 +32,7 @@ export default function Bento() {
         </div>
 
         {/* Middle Column - Large */}
-        <div className="relative flex-[1.5] hidden md:block overflow-hidden rounded-[2rem] group h-full">
+        <div className="relative flex-[1.5] hidden md:block overflow-hidden rounded-[1rem] group h-full">
           <Image
             src="/bentoImg4.jpg"
             alt="Chef preparing food"
@@ -48,7 +48,7 @@ export default function Bento() {
         </div>
 
         {/* Right Column - Tall */}
-        <div className="relative flex-1 overflow-hidden rounded-[2rem] group h-full">
+        <div className="relative flex-1 overflow-hidden rounded-[1rem] group h-full">
           <Image
             src="/bentoImg2.jpg"
             alt="Signature dish"

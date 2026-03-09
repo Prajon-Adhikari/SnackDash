@@ -2,8 +2,21 @@
 import Link from "next/link";
 import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaPaperPlane } from "react-icons/fa";
 import { MdOutlineEmail, MdOutlinePhoneInTalk, MdOutlineLocationOn } from "react-icons/md";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const pathname = usePathname();
+
+   if (
+    [
+      "/auth/signin",
+      "/auth/signup",
+      "/auth/forget-password",
+      "/auth/otp-verify",
+      "/auth/reset-password",
+    ].includes(pathname)
+  )
+    return null;
   return (
     <footer className="bg-[#0f172a] text-gray-400 pt-20 pb-10 overflow-hidden relative">
       {/* Decorative Blur */}

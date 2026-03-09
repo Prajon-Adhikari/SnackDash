@@ -103,7 +103,7 @@ export default function Signin() {
             <div>
               <div className="flex justify-between items-center ml-1">
                 <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Password</label>
-                <Link href="/auth/forget-password" size="sm" className="text-[10px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">
+                <Link href="/auth/forget-password" className="text-[10px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors">
                   Forgot Password?
                 </Link>
               </div>
